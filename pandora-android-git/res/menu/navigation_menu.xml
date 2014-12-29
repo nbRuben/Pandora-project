@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+	<item android:id="@+id/MnuOpc1" android:title="Actividad Reciente"
+          android:icon="@android:drawable/ic_menu_add"></item>
+    <item android:id="@+id/MnuOpc2" android:title="Mis Grupos"
+          android:icon="@android:drawable/ic_menu_add"></item>
+    <item android:id="@+id/MnuOpc3" android:title="Mis Asignaturas"
+          android:icon="@android:drawable/ic_menu_add"></item>   
+</menu>

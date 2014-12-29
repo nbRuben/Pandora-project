@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Pandora</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="app_namee">Pandora</string>
+    <string name="action_settings">Settings</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="button_signin">Sign in</string>
+    <string name="button_twitter">Twitter</string>
+    <string name="button_facebook">Facebook</string>
+    <string name="button_twitter_out">Sign out</string>
+    <string name="desc">Description</string>
+    <string name="register">Register</string>
+    <string name="register_username">Username</string>
+    <string name="register_password">Password</string>
+    <string name="register_confirm_password">Confirm Password</string>
+    <string name="register_email">Email</string>
+    <string name="register_surname">Surname</string>
+    <string name="register_name">Name</string>
+    <string name="button_submit">Submit</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_edit_image">Edit Picture</string>
+    <string name="button_send">Send</string>
+    <string name="button_register">Registrarse</string>
+    <string name="content">Insert Your Post Here!</string>
+    <string name="hint_search">Buscar asignatura</string>
+    <string name="button_publish">Publish</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="recent_activity">Actividad reciente</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="subjects">Asignaturas</string>
+    <string name="button_addToSubject">V</string>
+    <string name="button_search">Buscar</string>
+   
+    
+
+</resources>
