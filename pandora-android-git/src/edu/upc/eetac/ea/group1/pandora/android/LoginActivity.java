@@ -4,18 +4,17 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import edu.upc.eetac.ea.group1.pandora.android.api.PandoraAndroidApi;
-import edu.upc.eetac.ea.group1.pandora.android.api.model.User;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import edu.upc.eetac.ea.group1.pandora.android.api.PandoraAndroidApi;
+import edu.upc.eetac.ea.group1.pandora.android.api.model.User;
 
 public class LoginActivity extends Activity {
 
@@ -70,6 +69,7 @@ public class LoginActivity extends Activity {
 			User user = null;
 			PandoraAndroidApi api = new PandoraAndroidApi();
 			user = api.LoginUser(params[0], params[1]);
+			Log.i("LoginActivity", "Username: "+user.getUsername()+" Password: "+user.getUserpass());
 			return user;
 		}
 

@@ -4,23 +4,8 @@
     android:gravity="center"
     android:orientation="vertical"
     android:text="comentarios"
+    android:onClick=""
     android:textColor="#29FF2C" >
-
-   	 <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="5dip"
-        android:paddingRight="5dip" >
-        
-     	<TextView
-	        android:id="@+id/tvtypegroup"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_margin="5dip"
-	        android:textAppearance="?android:attr/textAppearanceMedium"
-	        android:textColor="#0B570C" />
-     	</LinearLayout>
      <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,6 +17,7 @@
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.5"
+	            android:textStyle="bold"
 	            android:textAppearance="?android:attr/textAppearanceSmall" />
      </LinearLayout>
      	
@@ -49,20 +35,13 @@
 	            android:layout_weight="0.5"
 	            android:textAppearance="?android:attr/textAppearanceSmall" />
 	   </LinearLayout>
-	   <LinearLayout
+
+		  <LinearLayout
 		   android:layout_width="match_parent"
 		   android:layout_height="wrap_content"
 		   android:orientation="horizontal"
 		   android:paddingLeft="5dip"
 		   android:paddingRight="5dip" >
-	        
-		       <TextView
-			        android:id="@+id/tvcomment"
-			        android:layout_width="match_parent"
-			        android:layout_height="wrap_content"
-		            android:layout_weight="0.5"
-		            android:gravity="left"
-			        android:textAppearance="?android:attr/textAppearanceSmall" />
 			    <TextView
 		        android:id="@+id/tvdate"
 		        android:layout_width="match_parent"
@@ -71,6 +50,5 @@
 	            android:gravity="right"
 		        android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
-   
 
 </LinearLayout>

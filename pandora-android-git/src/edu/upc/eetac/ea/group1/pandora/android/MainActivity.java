@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 import edu.upc.eetac.ea.group1.pandora.android.api.AdapterToList;
 import edu.upc.eetac.ea.group1.pandora.android.api.PandoraAndroidApi;
@@ -25,6 +26,7 @@ import edu.upc.eetac.ea.group1.pandora.android.api.model.Subject;
 public class MainActivity extends ListActivity
 {
 	private AdapterToList adapter;
+	private List<Post> postClick;
 	PandoraAndroidApi api = new PandoraAndroidApi();
 	private int newNotifications = 0;
 	private List<Notification> myNotifications;
@@ -77,6 +79,18 @@ public class MainActivity extends ListActivity
 		setListAdapter(adapter);
 		adapter.notifyDataSetChanged();
 	}
+	protected void onListItemClick(ListView l, View v, int position, long id){
+		Intent intent = new Intent(getApplicationContext(), ViewCommentsActivity.class );
+		if(postClick.get(position).getComment().size()==0){
+			Toast toast1 = Toast.makeText(getApplicationContext(),
+					"No tiene comentarios.", Toast.LENGTH_SHORT);
+			toast1.show();
+		}else{
+			intent.putExtra("idpost", postClick.get(position).getId());
+			intent.putExtra("username", (String) getIntent().getExtras().get("username"));
+			startActivity(intent);
+		}
+	}
 	
 	private void setNotifications(){
 		Button bNotifications = (Button) findViewById(R.id.bNotifications);
@@ -101,7 +115,7 @@ public class MainActivity extends ListActivity
 			List<Post> posts = null;
 			try {
 				posts = api.getListRecentActivity(params[0]);
-
+				postClick=posts;
 			} catch (Exception e) {
 				e.printStackTrace();
 				Log.i("MainActivity","Error al recibir el post de la MiniAPI.");
