@@ -26,6 +26,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import edu.upc.eetac.ea.group1.pandora.android.api.model.Comment;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Notification;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Post;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Subject;
@@ -35,7 +36,7 @@ public class PandoraAndroidApi {
 
 	private final static String BASE_URL = "http://10.89.130.60:8080/pandora-api/";
 	private final static String BASE_URL_VM = "http://10.0.2.2:8080/pandora-api/";
-	private final static String BASE_URL_CASA = "http://192.168.1.196:8080/pandora-api/";
+	private final static String BASE_URL_CASA= "http://192.168.1.196:8080/pandora-api/";
 
 	Gson gson = new Gson();
 
@@ -44,7 +45,7 @@ public class PandoraAndroidApi {
 		java.lang.reflect.Type arrayListType = new TypeToken<User>() {
 		}.getType();
 		gson = new Gson();
-
+		Log.i("PandoraAPI", "Username: "+username+" Password: "+pass);
 		String uurl = BASE_URL_VM + "users/" + username;
 		HttpClient httpClient = WebServiceUtils.getHttpClient();
 		try {
@@ -132,6 +133,33 @@ public class PandoraAndroidApi {
 		return data;
 
 	}
+	
+	public List<Comment> getListComments(String post) {
+		Gson gson = new Gson();
+		List<Comment> data = new ArrayList<Comment>();
+		
+		java.lang.reflect.Type arrayListType = new TypeToken<ArrayList<Comment>>(){}.getType();
+		
+		HttpClient httpClient = WebServiceUtils.getHttpClient();
+		
+		try{
+			String url= BASE_URL_VM+"posts/"+post;
+			HttpResponse response = httpClient.execute(new HttpGet(url));
+			Log.i("MiniAPI","GET a la URL: "+url);
+			if(response==null){
+						Log.i("MiniAPI","No se ha recibido bien la respuesta del servidor.");
+			}
+			HttpEntity entity = response.getEntity();
+			Reader reader = new InputStreamReader(entity.getContent());
+			Log.i("MiniAPI","Ahora Deserializamos con GSON");
+			data = gson.fromJson(reader,  arrayListType);	
+		
+		}catch(Exception e){
+			Log.i("json array","While getting server response server generate error.");
+		}
+			
+		return data;
+	}
 
 	public List<Post> getPosts(String idSubject) {
 		List<Post> posts = new ArrayList<Post>();
@@ -214,16 +242,17 @@ public class PandoraAndroidApi {
 		User u = new User();
 		java.lang.reflect.Type arrayListType = new TypeToken<User>() {
 		}.getType();
-		String url = BASE_URL_VM + "/users/" + username;
-
+		String url = BASE_URL_VM + "users/" + username;
+		System.out.println("Petición de getUser: "+url);
 		HttpClient httpClient = WebServiceUtils.getHttpClient();
 		try {
 			HttpResponse response = httpClient.execute(new HttpGet(url));
 			HttpEntity entity = response.getEntity();
 			Reader reader = new InputStreamReader(entity.getContent());
 			u = gson.fromJson(reader, arrayListType);
+			System.out.println("Usuario encontrado: "+u.getUsername());
 		} catch (Exception e) {
-
+			u=null;
 		}
 		return u;
 
@@ -257,6 +286,64 @@ public class PandoraAndroidApi {
 		}
 	}
 
+	public void addComment(String content, String idSubject, String author) {
+
+		String url = BASE_URL_VM + "subjects/" + idSubject + "/comments";
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.setHeader("Content-Type",
+				"application/vnd.pandora.api.comment+json");
+		HttpClient httpClient = WebServiceUtils.getHttpClient();
+		Post p = new Post();
+		p.setContent(content);
+		p.setUser(getUser(author));
+
+		System.out.println("llego aqui");
+		try {
+			StringEntity se = new StringEntity(gson.toJson(p));
+			httpPost.setEntity(se);
+
+			System.out.println("llego aqui2");
+			HttpResponse response = httpClient.execute(httpPost);
+
+			System.out.println("el response es" + response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void writeComment (Comment c,String owner, String idPost){
+		String url = BASE_URL_VM+"posts/"+idPost;
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.setHeader("Content-Type",
+				"application/vnd.pandora.api.comment+json");
+		HttpClient httpClient = WebServiceUtils.getHttpClient();
+		c.setUser(getUser(owner));
+		System.out.println("POST a "+url);
+		System.out.println("Content: "+ c.getContent());
+		System.out.println("Date: "+c.getDate());
+		System.out.println("User:{");
+		System.out.println("     email: "+c.getUser().getEmail());
+		System.out.println("     name: "+c.getUser().getName());
+		System.out.println("     surname: "+c.getUser().getSurname());
+		System.out.println("     username: "+c.getUser().getUsername());
+		System.out.println("     userpass: "+c.getUser().getUserpass());
+		System.out.println("}");
+		try {
+			StringEntity se = new StringEntity(gson.toJson(c));
+			httpPost.setEntity(se);
+
+			System.out.println("Esperamos la respuesta...");
+			HttpResponse response = httpClient.execute(httpPost);
+
+			System.out.println("el response es" + response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void addSubjectToUser(String idSubject, String username) {
 		String url = BASE_URL_VM + "users/" + username + "/subjects/"
 				+ idSubject;

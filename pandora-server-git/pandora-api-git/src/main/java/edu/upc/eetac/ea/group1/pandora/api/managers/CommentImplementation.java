@@ -1,7 +1,9 @@
 package edu.upc.eetac.ea.group1.pandora.api.managers;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.BadRequestException;
@@ -79,6 +81,7 @@ public class CommentImplementation implements Serializable{
 			//Obtenemos parametros del Commentdb y lo pasamos al Comment
 			c.setId(commentquery.getId());
 			c.setContent(commentquery.getContent());
+			c.setDate(commentquery.getDate());
 			c.setUser(commentquery.getUser().convertFromDB());
 			c.setPost(commentquery.getPost().convertFromDB());	
 		}
@@ -90,7 +93,7 @@ public class CommentImplementation implements Serializable{
 		Session session = factory.openSession();
 		SQLQuery query = session.createSQLQuery("SELECT * FROM comment WHERE post_POST_ID=:postid");
 		query.addEntity(Commentdb.class);
-		query.setInteger(":postid", postid);
+		query.setInteger("postid", postid);
 		session.beginTransaction();
 		
 		List<Commentdb> commentsdb = query.list();
@@ -101,6 +104,7 @@ public class CommentImplementation implements Serializable{
 			Comment c = new Comment();
 			c.setContent(cdb.getContent());
 			c.setId(cdb.getId());
+			c.setDate(cdb.getDate());
 			c.setPost(cdb.getPost().convertFromDB());
 			c.setUser(cdb.getUser().convertFromDB());
 			
@@ -114,27 +118,36 @@ public class CommentImplementation implements Serializable{
 	}
 
 	
-	public int addComment(Commentdb comment,String owner, int postid) {
+	public int addComment(Commentdb comment, int postid) {
 		//Validamos si el commentario cumple los requisitos.
-		validateComment(comment);
-		//Coger al dueño
-		Userdb u = userImpl.searchUserDB(owner);
-		System.out.println("Owner: "+u.getUsername());
-		//Coger el post
-		Postdb p = postImpl.searchPostDB(postid);
-		System.out.println("Referencia Post: "+p.getId());
-		try{
-		//hibernate session
-		SessionFactory factory = config.buildSessionFactory();
-		Session session = factory.getCurrentSession();
-		session.beginTransaction();
-		
-		//Guardo el comment
-		session.save(comment);
-		}catch(Exception e){
+		//validateComment(comment);
+		try {
+			SessionFactory factory = config.buildSessionFactory();
+			Session sesion = factory.getCurrentSession();
+			sesion.beginTransaction();
+			//Ponemos la hora excta en la que el comentario se inserta
+			Date date = new Date();
+			comment.setDate(date);
+			comment.setPost(postImpl.getPostdb(postid));
+			System.out.println("Content: "+ comment.getContent());
+			System.out.println("Date: "+comment.getDate());
+			System.out.println("User:{");
+			System.out.println("     email: "+comment.getUser().getEmail());
+			System.out.println("     name: "+comment.getUser().getName());
+			System.out.println("     surname: "+comment.getUser().getSurname());
+			System.out.println("     username: "+comment.getUser().getUsername());
+			System.out.println("     userpass: "+comment.getUser().getUserpass());
+			System.out.println("}");
+			System.out.println("Referente al post "+ comment.getPost().getId()+" : "+comment.getPost().getContent());
+			sesion.save(comment);
+			sesion.getTransaction().commit();
+			sesion.close();
+			System.out.println("Añadido");
+			return 1;
+		} catch (Exception e) {
+
 			return 0;
 		}
-		return 1;
 	}
 
 

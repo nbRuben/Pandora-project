@@ -1,9 +1,12 @@
 package edu.upc.eetac.ea.group1.pandora.android.api.model;
 
+import java.util.Date;
+
 public class Comment {
 	
 	int id;
 	String content;
+	String date;
 	User user;
 	Post post;
 	
@@ -30,7 +33,15 @@ public class Comment {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
+	public String getDate() {
+		return date;
+	}
 
+	public void setDate(String date) {
+		this.date = date;
+	}
+	
 	public User getUser() {
 		return user;
 	}

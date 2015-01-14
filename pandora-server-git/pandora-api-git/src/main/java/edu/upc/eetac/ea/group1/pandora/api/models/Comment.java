@@ -6,7 +6,7 @@ public class Comment {
 	
 	int id;
 	String content;
-	String date;
+	Date date;
 	User user;
 	Post post;
 	
@@ -34,11 +34,11 @@ public class Comment {
 		this.content = content;
 	}
 	
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	public User getUser() {

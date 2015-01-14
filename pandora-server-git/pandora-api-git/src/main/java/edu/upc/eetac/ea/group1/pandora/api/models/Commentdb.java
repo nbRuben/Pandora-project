@@ -2,6 +2,8 @@ package edu.upc.eetac.ea.group1.pandora.api.models;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,8 +16,10 @@ import javax.persistence.Table;
 @Table (name = "comment")
 public class Commentdb {
 	
+
 	int id;
 	String content;
+	Date date;
 	Userdb user;
 	Postdb post;
 	
@@ -24,8 +28,15 @@ public class Commentdb {
 		this.user=u;
 		this.post=p;
 	}
-	
+	public Commentdb(String c){
+		this.content=c;
+	}
 	public Commentdb(){}
+	
+	public Commentdb(String content, Date date){
+		this.content=content;
+		this.date=date;
+	}
 	
 	public Comment convertFromDB (){
 		Comment comment = new Comment();
@@ -56,6 +67,14 @@ public class Commentdb {
 		this.content = content;
 	}
 
+	@Column(name="DATE", nullable=false)
+	public Date getDate() {
+		return date;
+	}
+	
+	public void setDate(Date date) {
+		this.date = date;
+	}
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Userdb getUser() {
 		return user;
@@ -74,5 +93,4 @@ public class Commentdb {
 		this.post = post;
 	}
 
-	
 }

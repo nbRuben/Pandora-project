@@ -65,7 +65,18 @@ public class PostImplementation implements Serializable {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public Postdb getPostdb(int idpost) {
 
+		Session session = factory.openSession();
+		SQLQuery query = session.createSQLQuery("SELECT * FROM post WHERE POST_ID = :idpost");
+		query.addEntity(Postdb.class);
+		query.setInteger("idpost", idpost);
+		session.beginTransaction();
+		Postdb postquery=(Postdb) query.uniqueResult();
+		
+		session.close();
+		return postquery;
+	}
 
 	
 	public int updatePost(Postdb postt, int idpost) {
@@ -134,6 +145,7 @@ public class PostImplementation implements Serializable {
 									System.out.println("User propietario: "+postdb.getUser().getUsername());
 									post.setUser(postdb.getUser().convertFromDB());
 									post.setSubject(postdb.getSubject().convertFromDB());
+									post.setComment(convertlist.convertListComments(postdb.getComments()));
 									p.add(post); 
 								}
 							}
