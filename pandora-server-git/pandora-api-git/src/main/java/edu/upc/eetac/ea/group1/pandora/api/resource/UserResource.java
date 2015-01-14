@@ -19,6 +19,8 @@ import edu.upc.eetac.ea.group1.pandora.api.managers.PostImplementation;
 import edu.upc.eetac.ea.group1.pandora.api.managers.UserImplementation;
 import edu.upc.eetac.ea.group1.pandora.api.models.Group;
 import edu.upc.eetac.ea.group1.pandora.api.models.Groupdb;
+import edu.upc.eetac.ea.group1.pandora.api.models.Notification;
+import edu.upc.eetac.ea.group1.pandora.api.models.Notificationdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Post;
 import edu.upc.eetac.ea.group1.pandora.api.models.Subject;
 import edu.upc.eetac.ea.group1.pandora.api.models.User;
@@ -67,6 +69,28 @@ public class UserResource {
 		UserImplementation userImpl =  UserImplementation.getInstance();
    	    userImpl.deleteUser(user);	 
     }
+	
+	
+	@GET
+	@Path ("/{user}/notifications")
+	public List<Notification> getNotifications(@PathParam("user") String username)
+	{
+		List<Notification> n = new ArrayList<Notification>();
+		UserImplementation impl = UserImplementation.getInstance();
+		n= impl.getNotifications(username);
+		
+		return n;
+	}
+	
+	@PUT
+	@Path ("/{user}/notifications/{idNotification}")
+	@Consumes(MediaType.PANDORA_API_NOTIFICATION)
+	public void updateNotifications(Notificationdb notification)
+	{
+		UserImplementation impl = UserImplementation.getInstance();
+		impl.updateNotification(notification);
+		
+	}
 	
 	@POST
 	@Consumes(MediaType.PANDORA_API_USER)

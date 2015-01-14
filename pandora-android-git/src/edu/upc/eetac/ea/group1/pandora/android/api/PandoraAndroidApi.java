@@ -17,6 +17,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 
@@ -132,11 +133,11 @@ public class PandoraAndroidApi {
 
 	}
 
-	public List<Post> getComments(String idSubject) {
+	public List<Post> getPosts(String idSubject) {
 		List<Post> posts = new ArrayList<Post>();
 		java.lang.reflect.Type arrayListType = new TypeToken<ArrayList<Post>>() {
 		}.getType();
-		String url = BASE_URL_VM + "/subjects/" + idSubject + "/comments";
+		String url = BASE_URL_VM + "/subjects/" + idSubject + "/posts";
 
 		HttpClient httpClient = WebServiceUtils.getHttpClient();
 		try {
@@ -151,7 +152,7 @@ public class PandoraAndroidApi {
 
 	}
 
-	public List<Subject> getSubjects(String subject) {
+	public List<Subject> searchSubjects(String subject) {
 		List<Subject> subjects = new ArrayList<Subject>();
 		java.lang.reflect.Type arrayListType = new TypeToken<ArrayList<Subject>>() {
 		}.getType();
@@ -167,6 +168,28 @@ public class PandoraAndroidApi {
 
 		}
 		return subjects;
+
+	}
+	
+	public Subject searchSubjectsById(String idSubject) {
+		Subject subject = new Subject();
+		java.lang.reflect.Type objectType = new TypeToken<Subject>() {
+		}.getType();
+		String url = BASE_URL_VM + "/subjects/searchById?idSubject=" + idSubject;
+
+		HttpClient httpClient = WebServiceUtils.getHttpClient();
+		try {
+			System.out.println("dentro del try");
+			HttpResponse response = httpClient.execute(new HttpGet(url));
+			System.out.println("despues del response");
+			HttpEntity entity = response.getEntity();
+			Reader reader = new InputStreamReader(entity.getContent());
+			subject = gson.fromJson(reader, objectType);
+			System.out.println("el subject obtenido es " + subject.getId() + " " + subject.getName());
+		} catch (Exception e) {
+
+		}
+		return subject;
 
 	}
 
@@ -216,10 +239,11 @@ public class PandoraAndroidApi {
 		Post p = new Post();
 		p.setContent(content);
 		p.setUser(getUser(author));
-		Date date = new Date();
+		/*Date date = new Date();
         SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy hh:mm");
         String dateString =  formateador.format(date).toString();
-		p.setDate(dateString);
+        System.out.println("la fecha es " +dateString);
+		p.setDate(dateString);*/
 
 		try {
 			StringEntity se = new StringEntity(gson.toJson(p));
@@ -264,8 +288,8 @@ public class PandoraAndroidApi {
 		}
 	}
 
-	public List<Notification> getNotifications() {
-		String url = BASE_URL_VM + "/notifications";
+	public List<Notification> getNotifications(String username) {
+		String url = BASE_URL_VM + "/users/" +username + "/notifications";
 		List<Notification> notifications = new ArrayList<Notification>();
 		java.lang.reflect.Type arrayListType = new TypeToken<ArrayList<Notification>>() {
 		}.getType();
@@ -279,6 +303,24 @@ public class PandoraAndroidApi {
 
 		}
 		return notifications;
+	}
+	
+	public void updateNotification(Notification n){
+		String url = BASE_URL_VM + "users/" + n.getUsername() + "/notifications/"
+				+ n.getId();
+		HttpPut httpPut = new HttpPut(url);
+		httpPut.setHeader("Content-Type",
+				"application/vnd.pandora.api.notification+json");
+		HttpClient httpClient = WebServiceUtils.getHttpClient();
+		try {
+			StringEntity se = new StringEntity(gson.toJson(n));
+			httpPut.setEntity(se);
+			HttpResponse response = httpClient.execute(httpPut);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

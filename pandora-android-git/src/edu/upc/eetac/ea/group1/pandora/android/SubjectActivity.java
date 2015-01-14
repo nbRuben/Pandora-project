@@ -35,7 +35,8 @@ public class SubjectActivity extends ListActivity{
 	
 	public void postComment(View v){
 		Intent intent = new Intent(this, PostActivity.class);
-		intent.putExtra("idSubject", "1"); //cambiar id del subject dinamica
+		intent.putExtra("idSubject", (String) getIntent().getExtras().getString("idSubject")); //cambiar id del subject dinamica
+		intent.putExtra("subjectName", (String) getIntent().getExtras().getString("subjectName"));
 		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
 		startActivity(intent);
 		
@@ -53,7 +54,7 @@ public class SubjectActivity extends ListActivity{
 			
 			List<Post> posts = null;
 			try {
-				posts = api.getComments("1"); //cambiar el pasar id
+				posts = api.getPosts((String) getIntent().getExtras().getString("idSubject")); //cambiar el pasar id
 
 			} catch (Exception e) {
 				e.printStackTrace();

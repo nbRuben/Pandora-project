@@ -150,27 +150,27 @@ public class UserImplementation implements Serializable {
 
 	public User addUser(Userdb user) {
 
-        // Primero de todo comprobamos que los datos sean correctos.
-        validateUser(user, 0);
-        
-        // hibernate session
-        SessionFactory factory = config.buildSessionFactory();
-        Session sesion = factory.getCurrentSession();
-        sesion.beginTransaction();
-        
-        User u = new User();
-        u.setName(user.getName());
-        u.setUsername(user.getName());
-        u.setUserpass(user.getUserpass());
-        u.setSurname(user.getSurname());
-        u.setEmail(user.getEmail());
+		// Primero de todo comprobamos que los datos sean correctos.
+		validateUser(user, 0);
 
-        // Guardo User
-        sesion.save(user);
-        sesion.getTransaction().commit();
+		// hibernate session
+		SessionFactory factory = config.buildSessionFactory();
+		Session sesion = factory.getCurrentSession();
+		sesion.beginTransaction();
 
-        return u;
-    }
+		User u = new User();
+		u.setName(user.getName());
+		u.setUsername(user.getName());
+		u.setUserpass(user.getUserpass());
+		u.setSurname(user.getSurname());
+		u.setEmail(user.getEmail());
+
+		// Guardo User
+		sesion.save(user);
+		sesion.getTransaction().commit();
+
+		return u;
+	}
 
 	public int updateUser(Userdb user, String username) {
 		validateUser(user, 1);
@@ -307,11 +307,11 @@ public class UserImplementation implements Serializable {
 		try {
 			// hibernate session
 			System.out.println("dentro de la api");
-			System.out.println("el user es " +username);
+			System.out.println("el user es " + username);
 			SessionFactory factory = config.buildSessionFactory();
 			Session sesion = factory.getCurrentSession();
 			sesion.beginTransaction();
-			Userdb u = (Userdb)sesion.get(Userdb.class, new String(username));
+			Userdb u = (Userdb) sesion.get(Userdb.class, new String(username));
 			System.out.println("el usuario es " + u);
 			SubjectImplementation impl = SubjectImplementation.getInstance();
 			Subjectdb s = impl.getSubjectdb(idSubject);
@@ -324,7 +324,7 @@ public class UserImplementation implements Serializable {
 			System.out.println("usuario guardado");
 			sesion.getTransaction().commit();
 			System.out.println("commit hecho");
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			// throw new
@@ -332,25 +332,25 @@ public class UserImplementation implements Serializable {
 		}
 
 	}
-	
+
 	public void deleteSubjectFromUser(String username, int idSubject) {
 		System.out.println("borrando");
 		SessionFactory factory = config.buildSessionFactory();
 		Session sesion = factory.getCurrentSession();
 		sesion.beginTransaction();
-		Userdb u = (Userdb)sesion.get(Userdb.class, new String(username));
+		Userdb u = (Userdb) sesion.get(Userdb.class, new String(username));
 		SubjectImplementation impl = SubjectImplementation.getInstance();
 		Subjectdb s = impl.getSubjectdb(idSubject);
 		List<Subjectdb> ls = u.getSubject();
-		for(int i = 0; i<ls.size();i++){
+		for (int i = 0; i < ls.size(); i++) {
 			System.out.println("Contiene: " + ls.get(i).getName());
 		}
-		for(int i = 0; i<ls.size(); i++){
-			if(ls.get(i).getId()==s.getId()){
+		for (int i = 0; i < ls.size(); i++) {
+			if (ls.get(i).getId() == s.getId()) {
 				ls.remove(i);
 			}
 		}
-		for(int i = 0; i<ls.size();i++){
+		for (int i = 0; i < ls.size(); i++) {
 			System.out.println("Contiene ahora: " + ls.get(i).getName());
 		}
 		u.setSubject(ls);
@@ -363,24 +363,28 @@ public class UserImplementation implements Serializable {
 	public User login(String username, String password) {
 		return null;
 	}
-	
-	public List<Notification> getNotifications(){
+
+	public List<Notification> getNotifications(String username) {
 		Session session = factory.openSession();
 		SQLQuery query = session
-				.createSQLQuery("SELECT * FROM notification WHERE SEEN = 'N'");
+				.createSQLQuery("SELECT * FROM notification WHERE SEEN = 'N' and USERNAME = :username");
 		query.addEntity(Notificationdb.class);
+		query.setString("username", username);
 		session.beginTransaction();
 
 		@SuppressWarnings("unchecked")
 		List<Notificationdb> notificationdb = query.list();
 		List<Notification> notifications = new ArrayList<Notification>();
-		for(Notificationdb n : notificationdb){
+		for (Notificationdb n : notificationdb) {
 			Notification not = new Notification();
 			not.setId(n.getId());
 			not.setType(n.getType());
 			not.setRead(n.isRead());
-			if(n.getGrupo()!=null) not.setGrupo(n.getGrupo().convertFromDB());
-			if(n.getSubject()!=null)not.setSubject(n.getSubject().convertFromDB());
+			not.setUsername(n.getUsername());
+			if (n.getGrupo() != null)
+				not.setGrupo(n.getGrupo().convertFromDB());
+			if (n.getSubject() != null)
+				not.setSubject(n.getSubject().convertFromDB());
 			notifications.add(not);
 		}
 
@@ -388,6 +392,16 @@ public class UserImplementation implements Serializable {
 		session.close();
 
 		return notifications;
+	}
+
+	public void updateNotification(Notificationdb notification) {
+		SessionFactory factory = config.buildSessionFactory();
+		Session session = factory.openSession();
+		session.beginTransaction();
+		notification.setRead(true);
+		// Guardo User
+		session.update(notification);
+		session.getTransaction().commit();
 	}
 
 }

@@ -9,6 +9,7 @@ public interface MediaType {
 	public final static String PANDORA_API_POST_COLLECTION = "application/vnd.pandora.api.post.collection+json";
 	public final static String PANDORA_API_ERROR = "application/vnd.dsa.pandora.error+json";
 	public final static String PANDORA_API_SUBJECT = "application/vnd.pandora.api.subject+json";
+	public final static String PANDORA_API_NOTIFICATION = "application/vnd.pandora.api.notification+json";
 	public final static String PANDORA_API_SUBJECT_COLLECTION = "application/vnd.pandora.api.subject.collection+json";
 	public final static String PANDORA_API_GROUP = "application/vnd.pandora.api.group+json";
 	

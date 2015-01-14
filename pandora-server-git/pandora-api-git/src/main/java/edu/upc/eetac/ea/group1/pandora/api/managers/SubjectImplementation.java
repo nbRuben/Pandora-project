@@ -1,7 +1,9 @@
 package edu.upc.eetac.ea.group1.pandora.api.managers;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.BadRequestException;
@@ -192,7 +194,9 @@ public class SubjectImplementation implements Serializable {
 			Session sesion = factory.getCurrentSession();
 			sesion.beginTransaction();
 			post.setSubject(getSubjectdb(idSubject));
-			System.out.println("el post es " + post.getContent() + "el user es " +post.getUser().getUsername());
+			Date date = new Date();
+			post.setDate(date);
+			System.out.println("el post es " + post.getContent() +" con fecha " +post.getDate() + " el user es " +post.getUser().getUsername());
 			sesion.save(post);
 			sesion.getTransaction().commit();
 			sesion.close();
@@ -205,7 +209,7 @@ public class SubjectImplementation implements Serializable {
 	}
 
 	
-	public List<Post> getCommentsFromSubject(int idSubject) {
+	public List<Post> getPostsFromSubject(int idSubject) {
 		// TODO Auto-generated method stub
 		Session session = factory.openSession();
 		SQLQuery query = session
@@ -248,6 +252,25 @@ public class SubjectImplementation implements Serializable {
 		session.close();
 		
 		return subjects;
+	}
+	
+	public Subject searchSubjectById(int idSubject) {
+		// TODO Auto-generated method stub	
+		Session session = factory.openSession();
+		SQLQuery query = session.createSQLQuery("SELECT * FROM subject WHERE SUBJECT_ID = :idSubject");
+		query.addEntity(Subjectdb.class);
+		query.setInteger("idSubject", idSubject);
+		session.beginTransaction();
+
+		@SuppressWarnings("unchecked")
+		Subjectdb subjectdb = (Subjectdb) query.uniqueResult();
+		Subject subject = subjectdb.convertFromDB();
+		
+
+		session.getTransaction().commit();
+		session.close();
+		
+		return subject;
 	}
 	
 }

@@ -84,10 +84,10 @@ public class MainActivity extends ListActivity
 	}
 	
 	public void goToNotifications(View v){
-		/*Intent intent = new Intent(this, NotificationActivity.class);
+		Intent intent = new Intent(this, NotificationActivity.class);
 		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
-		intent.putExtra("myNotifications", myNotifications);
-    	startActivity(intent);*/
+		intent.putExtra("myNotifications", (ArrayList<Notification>) myNotifications);
+    	startActivity(intent);
 	}
 	
 	
@@ -140,7 +140,7 @@ public class MainActivity extends ListActivity
 			//Falta lo mismo para grupo
 			try {
 				mySubjects = api.getMySubjects(params[0]);
-				notifications = api.getNotifications();
+				notifications = api.getNotifications((String) getIntent().getExtras().get("username"));
 
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -31,6 +31,7 @@
     <string name="recent_activity">Actividad reciente</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="subjects">Asignaturas</string>
+    <string name="notifications">Mis notificaciones</string>
     <string name="button_addToSubject">V</string>
     <string name="button_search">Buscar</string>
    

@@ -63,15 +63,21 @@ public class CreateTablesDB {
 		u.addPost(p);
 		session.save(p);
 
-		Notificationdb n = new Notificationdb(1, s, false);
+		Notificationdb n = new Notificationdb(1, s, false, u.getUsername());
 		g.addNotificacion(n);
 		session.save(n);
+		
 
 		s = new Subjectdb("Planificacio de xarxes");
 		u.addSubject(s);
 		session.save(s);
 		
-		n = new Notificationdb(1, s, false);
+		n = new Notificationdb(1, s, false, u.getUsername());
+		g.addNotificacion(n);
+		session.save(n);
+		
+		
+		n = new Notificationdb(3, s, false, u.getUsername()); //// CAMBIAR A GRUPO
 		g.addNotificacion(n);
 		session.save(n);
 
@@ -82,6 +88,10 @@ public class CreateTablesDB {
 		s = new Subjectdb("Seguretat en xarxes");
 		u2.addSubject(s);
 		session.save(s);
+		
+		n = new Notificationdb(1, s, false, u2.getUsername());
+		g.addNotificacion(n);
+		session.save(n);
 
 		s = new Subjectdb("Xarxes Locals, d'Access i Metropolitanes");
 		session.save(s);
