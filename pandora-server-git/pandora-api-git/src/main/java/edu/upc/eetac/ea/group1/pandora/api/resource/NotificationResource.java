@@ -12,15 +12,6 @@ import edu.upc.eetac.ea.group1.pandora.api.models.Notification;
 @Path("/notifications")
 public class NotificationResource {
 	
-	@GET
-	public List<Notification> getNotifications()
-	{
-		List<Notification> n = new ArrayList<Notification>();
-		UserImplementation impl = UserImplementation.getInstance();
-		n= impl.getNotifications();
-		
-		return n;
-	}
-	
+
 
 }

@@ -1,8 +1,10 @@
 package edu.upc.eetac.ea.group1.pandora.android.api.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Subject {
+@SuppressWarnings("serial")
+public class Subject implements Serializable{
 	String id;
 	String name; 
 	List<User> user; 

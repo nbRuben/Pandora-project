@@ -24,21 +24,25 @@ public class Notificationdb {
 	int type; 
     Groupdb grupo; 
 	Subjectdb subject;
+	String username;
 	boolean read;
 	
-	public Notificationdb (int type, Groupdb group, boolean read){
+
+	public Notificationdb (int type, Groupdb group, boolean read, String username){
 		
 		this.type=type;
 		this.grupo=group;
 		this.read = read;
+		this.username = username;
 		
 	}
 	
-	public Notificationdb (int type, Subjectdb subject, boolean read){
+	public Notificationdb (int type, Subjectdb subject, boolean read, String username){
 		
 		this.type= type;
 		this.subject=subject;
 		this.read = read;
+		this.username = username;
 	}
 	
 	public Notificationdb (){}
@@ -96,5 +100,14 @@ public class Notificationdb {
 	public void setSubject(Subjectdb subject) {
 		this.subject = subject;
 	} 
+	
+	@Column(name = "USERNAME", nullable = false)
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
 }

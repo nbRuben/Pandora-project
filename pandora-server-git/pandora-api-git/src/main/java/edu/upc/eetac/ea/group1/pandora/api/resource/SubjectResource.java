@@ -46,6 +46,17 @@ public class SubjectResource {
 	}
 	
 	@GET
+	@Path("/searchById")
+	public Subject searchSubjectsById(@QueryParam("idSubject") int idSubject)
+	{
+		Subject s = new Subject();
+		SubjectImplementation impl = SubjectImplementation.getInstance();
+		s= impl.searchSubjectById(idSubject);
+		
+		return s;
+	}
+	
+	@GET
 	@Path ("/{idsubject}")
 	public Subject getSubject(@PathParam("idsubject") int idsubject) {
 
@@ -57,12 +68,12 @@ public class SubjectResource {
 	 }
 	
 	@GET
-	@Path ("/{idsubject}/comments")
-	public List<Post> getCommentsFromSubject(@PathParam("idsubject") int idSubject)
+	@Path ("/{idsubject}/posts")
+	public List<Post> getPostsFromSubject(@PathParam("idsubject") int idSubject)
 	{
 		List<Post> posts = new ArrayList<Post>();
 		SubjectImplementation impl = SubjectImplementation.getInstance();
-		posts= impl.getCommentsFromSubject(idSubject);
+		posts= impl.getPostsFromSubject(idSubject);
 		
 		return posts;
 	}

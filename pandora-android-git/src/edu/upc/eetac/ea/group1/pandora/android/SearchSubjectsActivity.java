@@ -58,7 +58,7 @@ public class SearchSubjectsActivity extends ListActivity {
 			List<Subject> mySubjects = null;
 			match = new ArrayList<String>();
 			try {
-				subjects = api.getSubjects(params[0]);
+				subjects = api.searchSubjects(params[0]);
 				mySubjects = api.getMySubjects((String) getIntent().getExtras().get("username"));
 				for(Subject s1: subjects){
 					match.add("false");

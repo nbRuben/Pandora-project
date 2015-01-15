@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
+import edu.upc.eetac.ea.group1.pandora.api.models.Commentdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Groupdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Notificationdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Postdb;
@@ -21,6 +22,7 @@ public class CreateTablesDB {
 		config.addAnnotatedClass(Postdb.class);
 		config.addAnnotatedClass(Groupdb.class);
 		config.addAnnotatedClass(Subjectdb.class);
+		config.addAnnotatedClass(Commentdb.class);
 		config.addAnnotatedClass(Notificationdb.class);
 		config.configure();
 
@@ -63,15 +65,21 @@ public class CreateTablesDB {
 		u.addPost(p);
 		session.save(p);
 
-		Notificationdb n = new Notificationdb(1, s, false);
+		Notificationdb n = new Notificationdb(1, s, false, u.getUsername());
 		g.addNotificacion(n);
 		session.save(n);
+		
 
 		s = new Subjectdb("Planificacio de xarxes");
 		u.addSubject(s);
 		session.save(s);
 		
-		n = new Notificationdb(1, s, false);
+		n = new Notificationdb(1, s, false, u.getUsername());
+		g.addNotificacion(n);
+		session.save(n);
+		
+		
+		n = new Notificationdb(3, s, false, u.getUsername()); //// CAMBIAR A GRUPO
 		g.addNotificacion(n);
 		session.save(n);
 
@@ -82,6 +90,10 @@ public class CreateTablesDB {
 		s = new Subjectdb("Seguretat en xarxes");
 		u2.addSubject(s);
 		session.save(s);
+		
+		n = new Notificationdb(1, s, false, u2.getUsername());
+		g.addNotificacion(n);
+		session.save(n);
 
 		s = new Subjectdb("Xarxes Locals, d'Access i Metropolitanes");
 		session.save(s);

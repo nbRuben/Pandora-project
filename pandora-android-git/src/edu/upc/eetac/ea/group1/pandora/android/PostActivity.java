@@ -32,8 +32,11 @@ public class PostActivity extends Activity{
 	
 			try {
 				PandoraAndroidApi api = new PandoraAndroidApi();
-				api.addPost(params[0], "1", (String) getIntent().getExtras().get("username"));//cambiar la id del subject dinamico
+				api.addPost(params[0], (String) getIntent().getExtras().getString("idSubject"), (String) getIntent().getExtras().get("username"));//cambiar la id del subject dinamico
 				Intent intent = new Intent(getApplicationContext(), SubjectActivity.class);
+				intent.putExtra("idSubject", (String) getIntent().getExtras().getString("idSubject"));
+				intent.putExtra("subjectName", (String) getIntent().getExtras().getString("subjectName"));
+				intent.putExtra("username", (String) getIntent().getExtras().get("username"));
 				startActivity(intent);
 
 			} catch (Exception e) {

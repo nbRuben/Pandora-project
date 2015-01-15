@@ -56,6 +56,10 @@
             android:name="edu.upc.eetac.ea.group1.pandora.android.ViewCommentsActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="edu.upc.eetac.ea.group1.pandora.android.NotificationActivity"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
     <uses-sdk

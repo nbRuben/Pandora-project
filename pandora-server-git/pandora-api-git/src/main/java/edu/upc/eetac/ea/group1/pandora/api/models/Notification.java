@@ -6,6 +6,7 @@ public class Notification {
 	int type; 
     Group grupo; 
 	Subject subject;
+	String username;
 	boolean read;
 	
 	public Notification(){}
@@ -41,6 +42,16 @@ public class Notification {
 	public void setRead(boolean read) {
 		this.read = read;
 	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	
 	
 	
 

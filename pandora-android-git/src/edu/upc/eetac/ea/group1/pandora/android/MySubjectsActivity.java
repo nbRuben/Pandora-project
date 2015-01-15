@@ -40,14 +40,16 @@ public class MySubjectsActivity extends ListActivity {
 		startActivity(intent);
 	}
 	
-	public void goToActivity(View v){
+	/*public void goToActivity(View v){
 		Intent intent = new Intent(this, SubjectActivity.class);
 		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
 		TextView subjectName = (TextView) findViewById(R.id.tvsubject);
+		TextView idSubject = (TextView) findViewById(R.id.tvsubjectID);
 		intent.putExtra("subjectName", subjectName.getText().toString());
+		intent.putExtra("idSubject", idSubject.getText().toString());
 		Log.i("SelectedGroupActivity","Nos vamos a Join con: "+(String) getIntent().getExtras().get("username"));
     	startActivity(intent);
-	}
+	}*/
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

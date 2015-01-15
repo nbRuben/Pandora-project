@@ -1,11 +1,15 @@
 package edu.upc.eetac.ea.group1.pandora.android.api.model;
 
-public class Notification {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Notification implements Serializable {
 	
 	String id; 
 	int type; 
     Group grupo; 
 	Subject subject;
+	String username;
 	
 	public String getId() {
 		return id;
@@ -31,8 +35,12 @@ public class Notification {
 	public void setSubject(Subject subject) {
 		this.subject = subject;
 	}
-	
-	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	
 
 }

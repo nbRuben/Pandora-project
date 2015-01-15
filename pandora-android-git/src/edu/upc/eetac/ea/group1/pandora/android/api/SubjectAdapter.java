@@ -3,10 +3,12 @@ package edu.upc.eetac.ea.group1.pandora.android.api;
 import java.util.ArrayList;
 
 import edu.upc.eetac.ea.group1.pandora.android.R;
+import edu.upc.eetac.ea.group1.pandora.android.SubjectActivity;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Subject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SubjectAdapter extends BaseAdapter {
@@ -76,6 +79,7 @@ public class SubjectAdapter extends BaseAdapter {
 			}
 
 			final TextView tvSubjectID = (TextView) convertView.findViewById(R.id.tvsubjectID);
+			final TextView tvSubjectName = (TextView) convertView.findViewById(R.id.tvsubject);
 			addButton.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -88,8 +92,29 @@ public class SubjectAdapter extends BaseAdapter {
 					} else {
 						(new ManageSubjectsTask()).execute("0", idSubject, (String)((Activity) context).getIntent().getExtras().get("username"));
 					}
+					
+					
+					((Activity) context).finish();
+					((Activity) context).startActivity(((Activity) context).getIntent());
 				}
 
+			});
+			
+			final LinearLayout subjectLayout = (LinearLayout) convertView.findViewById(R.id.llsubject);
+			
+			subjectLayout.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					Intent intent = new Intent(context, SubjectActivity.class);
+					intent.putExtra("username", (String)((Activity) context).getIntent().getExtras().get("username"));
+					intent.putExtra("subjectName", tvSubjectName.getText().toString());
+					intent.putExtra("idSubject", tvSubjectID.getText().toString());
+			    	context.startActivity(intent);
+					
+				}
+				
 			});
 
 			String content = data.get(position).getName();
@@ -110,6 +135,7 @@ public class SubjectAdapter extends BaseAdapter {
 		protected Void doInBackground(String... params) {
 			if(params[0].equals("0")){
 				api.addSubjectToUser(params[1], params[2]);
+				
 			}
 			if(params[0].equals("1")){
 				api.deleteUserFromSubject(params[1], params[2]);
