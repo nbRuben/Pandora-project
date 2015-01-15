@@ -33,8 +33,15 @@ public class ViewCommentsActivity extends ListActivity{
 	}
 	
 	private void addComment(List<Comment> comments){
-//		TextView tvpost= (TextView)findViewById(R.id.tvpost);
-//		tvpost.setText(comments.get(1).getPost().getContent());
+//		TextView tvownerpost= (TextView)findViewById(R.id.tvownerpost);
+//		TextView tvcontentpost= (TextView)findViewById(R.id.tvcontentpost);
+//		TextView tvdatepost= (TextView)findViewById(R.id.tvdatepost);
+//
+//		System.out.println("Disponemos  a poner el texto en la lista de layout: "+ comments.get(1).getUser().getUsername());
+//		tvownerpost.setText(comments.get(1).getUser().getUsername());	
+//		tvcontentpost.setText(comments.get(1).getPost().getContent());
+//		tvdatepost.setText(comments.get(1).getPost().getDate());
+
 		adapter = new AdapterToListComment(this,(ArrayList<Comment>)comments);
 		setListAdapter(adapter);
 		adapter.notifyDataSetChanged();
@@ -79,10 +86,8 @@ public class ViewCommentsActivity extends ListActivity{
 				Toast toast1 = Toast.makeText(getApplicationContext(),
 						"No tiene comentarios.", Toast.LENGTH_SHORT);
 				toast1.show();
-				addComment(result);
 			}
-			else{
-				
+			else{				
 				addComment(result);
 			}
 			if (pd != null) {
