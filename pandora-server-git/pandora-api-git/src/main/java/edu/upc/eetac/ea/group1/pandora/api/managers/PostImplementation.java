@@ -100,7 +100,7 @@ public class PostImplementation implements Serializable {
 				System.out.println("Fecha (SimpleDateFormat): "+ft.format(now) );
 				System.out.println("Fecha (String): "+dnow );
 				Session session = factory.openSession();
-				SQLQuery query = session.createSQLQuery("SELECT * FROM post p INNER JOIN user u WHERE p.user_USERNAME=u.USERNAME"); //AND DATE<:date");
+				SQLQuery query = session.createSQLQuery("SELECT * FROM post p INNER JOIN user u WHERE p.user_USERNAME=u.USERNAME ORDER BY p.date DESC"); 
 				query.addEntity(Postdb.class);
 				//query.setString("date", dnow);
 				session.beginTransaction();
@@ -125,6 +125,7 @@ public class PostImplementation implements Serializable {
 							System.out.println("Dentro de un grupo.");
 							for(Userdb userdb: postdb.getGrupo().getUser()){
 								System.out.println("Revisando si el user esta en el posible grupo");
+								System.out.println("Userdb.getUsername()="+userdb.getUsername()+" username="+username);
 								if(username.equals(userdb.getUsername()))
 									System.out.println("Post de grupo metido.");
 									System.out.println("User propietario: "+postdb.getUser().getUsername());

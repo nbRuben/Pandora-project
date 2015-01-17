@@ -8,6 +8,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import edu.upc.eetac.ea.group1.pandora.api.models.Commentdb;
+import edu.upc.eetac.ea.group1.pandora.api.models.Documentdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Groupdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Notificationdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Postdb;
@@ -24,6 +25,7 @@ public class CreateTablesDB {
 		config.addAnnotatedClass(Subjectdb.class);
 		config.addAnnotatedClass(Commentdb.class);
 		config.addAnnotatedClass(Notificationdb.class);
+		config.addAnnotatedClass(Documentdb.class);
 		config.configure();
 
 		new SchemaExport(config).create(true, true);

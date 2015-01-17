@@ -44,13 +44,6 @@ public class Post {
 		this.date = date;
 	}
 
-//	public void setDate(String strDate) throws ParseException {
-//		SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//		Date date = formatoDelTexto.parse(strDate);
-//		this.date = date;
-//	}
-
-
 
 	public Group getGrupo() {
 		return grupo;

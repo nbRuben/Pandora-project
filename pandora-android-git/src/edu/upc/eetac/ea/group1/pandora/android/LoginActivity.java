@@ -62,6 +62,11 @@ public class LoginActivity extends Activity {
 		startActivity(new Intent().setClass(v.getContext(),TwitterLoginActivity.class));
 	}
 	
+	public void register(View v){
+	    Intent intent = new Intent(this, RegisterActivity.class);
+	    startActivity(intent);            
+	}
+	
 	String username;
 
 	@SuppressLint("NewApi")

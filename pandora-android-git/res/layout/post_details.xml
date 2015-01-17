@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:onClick="goToComments"
     android:orientation="vertical"
     android:text="comentarios"
     android:textColor="#29FF2C" >
@@ -14,43 +15,37 @@
         android:paddingRight="5dip" >
 
         <TextView
-            android:id="@+id/tvowner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="5dip"
-        android:paddingRight="5dip" >
-
-        <TextView
-            android:id="@+id/tvcontent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="5dip"
-        android:paddingRight="5dip" >
-
-        <TextView
-            android:id="@+id/tvdate"
+            android:id="@+id/tvauthor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:gravity="right"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="5dip"
+        android:paddingRight="5dip" >
+
+        <TextView
+            android:id="@+id/tvpost"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#000022" />
+
+        <TextView
+            android:id="@+id/tvpostID"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:gravity="right"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:visibility="invisible" />
     </LinearLayout>
 
 </LinearLayout>

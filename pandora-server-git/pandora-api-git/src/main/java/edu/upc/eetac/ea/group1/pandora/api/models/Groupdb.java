@@ -23,7 +23,7 @@ public class Groupdb {
 	List<Userdb> user; 
 	List<Postdb> post;
 	List<Notificationdb> notification;
-	
+	List<Documentdb> document;
 	
 
 	public Groupdb(String name) {
@@ -32,6 +32,7 @@ public class Groupdb {
 		post = new ArrayList<>();
 		user = new ArrayList<>();
 		notification = new ArrayList<>(); 
+		document = new ArrayList<>();
 	}
 	
 	public Groupdb(){
@@ -39,6 +40,7 @@ public class Groupdb {
 		post = new ArrayList<>();
 		user = new ArrayList<>();
 		notification = new ArrayList<>(); 
+		document = new ArrayList<>();
 	}
 	
 	public Group convertFromDB(){
@@ -90,6 +92,14 @@ public class Groupdb {
 	public void setNotification(List<Notificationdb> notification) {
 		this.notification = notification;
 	}
+
+    @OneToMany (fetch = FetchType.LAZY, mappedBy= "grupo")
+	public List<Documentdb> getDocument() {
+		return document;
+	}
+	public void setDocument(List<Documentdb> document) {
+		this.document = document;
+	}
 	
     public void addPost (Postdb post)
     {
@@ -100,4 +110,9 @@ public class Groupdb {
     {
     	this.notification.add(notification);
     }
+    
+	public void addDocument(Documentdb document){
+		this.document.add(document);
+	}
+    
 }

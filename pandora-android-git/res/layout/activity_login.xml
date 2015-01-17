@@ -6,7 +6,7 @@
     android:background="#004c99"
     android:fillViewport="true" >
 
-    <RelativeLayout
+    <RelativeLayout 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
@@ -28,7 +28,7 @@
             android:layout_below="@id/header"
             android:contentDescription="@string/desc"
             android:gravity="center_vertical"
-            android:src="@drawable/logo" />
+            android:src="@drawable/pandora_logo" />
         <!-- Header ends -->
 
 
@@ -47,7 +47,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/login_username"
-                android:textColor="#000" />
+                android:textColor="#fff" />
 
             <EditText
                 android:id="@+id/etUsername"
@@ -66,7 +66,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/login_password"
-                android:textColor="#000" />
+                android:textColor="#fff" />
 
             <EditText
                 android:id="@+id/etPassword"
@@ -110,7 +110,7 @@
             android:textColor="#fff" />
 
         <Button
-            android:id="@+id/bLoginFacebook"
+            android:id="@+id/bLoginTwitter"
             android:layout_width="100dp"
             android:layout_height="25dp"
             android:layout_alignBaseline="@+id/bLoginTwitter"
@@ -118,7 +118,7 @@
             android:layout_toRightOf="@+id/bLogin"
             android:background="@drawable/border_button"
             android:onClick="signInTwitter"
-            android:text="@string/button_facebook"
+            android:text="@string/button_twitter"
             android:textColor="#fff" />
 
         <Button

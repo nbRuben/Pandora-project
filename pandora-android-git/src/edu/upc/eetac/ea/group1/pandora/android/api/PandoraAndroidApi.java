@@ -1,5 +1,6 @@
 package edu.upc.eetac.ea.group1.pandora.android.api;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,6 +19,7 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 
@@ -27,6 +29,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Comment;
+import edu.upc.eetac.ea.group1.pandora.android.api.model.Document;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Notification;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Post;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Subject;
@@ -35,7 +38,7 @@ import edu.upc.eetac.ea.group1.pandora.android.api.model.User;
 public class PandoraAndroidApi {
 
 	private final static String BASE_URL = "http://10.89.130.60:8080/pandora-api/";
-	private final static String BASE_URL_VM = "http://10.189.59.53:8080/pandora-api/";
+	private final static String BASE_URL_VM = "http://10.189.59.53:8080/pandora-api/";//"http://10.0.2.2:8080/pandora-api/";
 	private final static String BASE_URL_CASA= "http://192.168.1.196:8080/pandora-api/";
 
 	Gson gson = new Gson();
@@ -268,12 +271,6 @@ public class PandoraAndroidApi {
 		Post p = new Post();
 		p.setContent(content);
 		p.setUser(getUser(author));
-		/*Date date = new Date();
-        SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy hh:mm");
-        String dateString =  formateador.format(date).toString();
-        System.out.println("la fecha es " +dateString);
-		p.setDate(dateString);*/
-
 		try {
 			StringEntity se = new StringEntity(gson.toJson(p));
 			httpPost.setEntity(se);
@@ -408,6 +405,74 @@ public class PandoraAndroidApi {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void uploadDocument(String name, String username, String id, String type){
+		String url = "";
+		if(type.equals("0")){
+			url = BASE_URL_VM + "subjects/" + id + "/documents/";
+		}else{
+			url = BASE_URL_VM + "groups/" + id + "/documents/";
+		}
+		
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.setHeader("Content-Type",
+				"application/vnd.pandora.api.document+json");
+		HttpClient httpClient = WebServiceUtils.getHttpClient();
+		Document d = new Document();
+		d.setName(name);
+		d.setUsername(username);
+		
+		try {
+			StringEntity se = new StringEntity(gson.toJson(d));
+			httpPost.setEntity(se);
+			HttpResponse response = httpClient.execute(httpPost);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void saveDocument(File f){
+		String url =  BASE_URL_VM + "file";
+		HttpPost httpPost = new HttpPost(url);
+		HttpClient httpClient = WebServiceUtils.getHttpClient();
+		try {
+			System.out.println("en save document con url " +url);
+			FileEntity fe = new FileEntity(f, "document");
+			httpPost.setEntity(fe);
+			HttpResponse response = httpClient.execute(httpPost);
+			System.out.println("ejecutado el save doc");
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public List<Document> getDocuments(String type, String id){
+		String url = "";
+		if(type.equals("0")){
+			url = BASE_URL_VM + "subjects/" + id + "/documents/";
+		}else{
+			url = BASE_URL_VM + "groups/" + id + "/documents/";
+		}
+		List<Document> documents = new ArrayList<Document>();
+		java.lang.reflect.Type arrayListType = new TypeToken<ArrayList<Document>>() {
+		}.getType();
+		HttpClient httpClient = WebServiceUtils.getHttpClient();
+		try {
+			HttpResponse response = httpClient.execute(new HttpGet(url));
+			HttpEntity entity = response.getEntity();
+			Reader reader = new InputStreamReader(entity.getContent());
+			documents = gson.fromJson(reader, arrayListType);
+		} catch (Exception e) {
+
+		}
+		
+		return documents;
 	}
 
 }

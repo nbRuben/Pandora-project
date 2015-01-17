@@ -33,6 +33,7 @@
 		<mapping class="edu.upc.eetac.ea.group1.pandora.api.models.Subjectdb"/>
 		<mapping class="edu.upc.eetac.ea.group1.pandora.api.models.Groupdb"/>
 		<mapping class="edu.upc.eetac.ea.group1.pandora.api.models.Notificationdb"/>
+		<mapping class="edu.upc.eetac.ea.group1.pandora.api.models.Documentdb"/>
 
 
 	</session-factory>

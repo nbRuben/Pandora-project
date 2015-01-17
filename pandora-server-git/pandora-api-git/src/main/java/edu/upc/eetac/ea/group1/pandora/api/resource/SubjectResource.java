@@ -1,5 +1,6 @@
 package edu.upc.eetac.ea.group1.pandora.api.resource;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,8 @@ import javax.ws.rs.QueryParam;
 
 import edu.upc.eetac.ea.group1.pandora.api.MediaType;
 import edu.upc.eetac.ea.group1.pandora.api.managers.SubjectImplementation;
+import edu.upc.eetac.ea.group1.pandora.api.models.Document;
+import edu.upc.eetac.ea.group1.pandora.api.models.Documentdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Post;
 import edu.upc.eetac.ea.group1.pandora.api.models.Postdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Subject;
@@ -76,6 +79,27 @@ public class SubjectResource {
 		posts= impl.getPostsFromSubject(idSubject);
 		
 		return posts;
+	}
+	
+	@GET
+	@Path ("/{idsubject}/documents")
+	public List<Document> getDocumentsFromSubject(@PathParam("idsubject") int idSubject)
+	{
+		List<Document> documents = new ArrayList<Document>();
+		SubjectImplementation impl = SubjectImplementation.getInstance();
+		documents= impl.getDocumentsFromSubject(idSubject);
+		
+		return documents;
+	}
+	
+	@POST
+	@Path ("/{idsubject}/documents")
+	@Consumes(MediaType.PANDORA_API_DOCUMENT)
+	public void addDocumentsToSubject(@PathParam("idsubject") int idSubject, Documentdb document)
+	{
+		SubjectImplementation impl = SubjectImplementation.getInstance();
+		impl.addDocumentsToSubject(idSubject, document);
+		
 	}
 	
 	@PUT

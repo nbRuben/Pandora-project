@@ -1,21 +1,25 @@
 package edu.upc.eetac.ea.group1.pandora.android;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.upc.eetac.ea.group1.pandora.android.api.PostAdapter;
 import edu.upc.eetac.ea.group1.pandora.android.api.PandoraAndroidApi;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Post;
+import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.TextView;
 
 public class SubjectActivity extends ListActivity{
-
 	private PandoraAndroidApi api = new PandoraAndroidApi();
 	private PostAdapter adapter;
 	@Override
@@ -48,13 +52,32 @@ public class SubjectActivity extends ListActivity{
 		
 	}
 	
+	public void goToComments(View v){
+		Intent intent = new Intent(this, ViewCommentsActivity.class);
+		TextView postId = (TextView) findViewById(R.id.tvpostID);
+		intent.putExtra("idpost", postId.getText().toString());
+		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
+		startActivity(intent);
+	}
+	
+	
+	
+	public void goToDocuments(View v){
+		//TextView subjectID = (TextView) findViewById(R.id.tvsubjectID);
+		Intent intent = new Intent(this, DocumentsActivity.class);
+		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
+		intent.putExtra("idSubject", (String) getIntent().getExtras().getString("idSubject"));
+		startActivity(intent);
+	}
+	
 	private void printPosts(List<Post> posts){
 		adapter = new PostAdapter(this,(ArrayList<Post>)posts);
 		setListAdapter(adapter);
 		adapter.notifyDataSetChanged();
 	}
+	@SuppressLint("NewApi") 
 	private class FetchCommentsTask extends AsyncTask<String, Void, List<Post>> {
-		private ProgressDialog pd;
+		private ProgressDialog pd; 
 		@Override
 		protected List<Post> doInBackground(String... params) {
 			
@@ -81,5 +104,7 @@ public class SubjectActivity extends ListActivity{
 			}
 		}
 	}
+	
+	
 	
 }

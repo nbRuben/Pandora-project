@@ -22,18 +22,21 @@ public class Subjectdb {
 	List<Userdb> user; 
 	List<Postdb> post;
 	List<Notificationdb> notification;
+	List<Documentdb> document;
 	
 	public Subjectdb(String name) {
 		this.name = name;				
 		post = new ArrayList<>();
 		user = new ArrayList<>();
-		notification = new ArrayList<>(); 
+		notification = new ArrayList<>();
+		document = new ArrayList<>();
 	}
 	public Subjectdb(){
 		super();
 		post = new ArrayList<>();
 		user = new ArrayList<>();
 		notification = new ArrayList<>(); 
+		document = new ArrayList<>();
 	}
 	public Subject convertFromDB(){
 		
@@ -89,6 +92,14 @@ public class Subjectdb {
 		this.notification = notification;
 	}
 	
+    @OneToMany (fetch = FetchType.LAZY, mappedBy= "subject")
+	public List<Documentdb> getDocument() {
+		return document;
+	}
+	public void setDocument(List<Documentdb> document) {
+		this.document = document;
+	}
+	
 	public void addUser(Userdb user){
 		this.user.add(user);
 	}
@@ -102,6 +113,12 @@ public class Subjectdb {
     {
     	this.notification.add(notification);
     }
+    
+    
+	public void addDocument(Documentdb document){
+		this.document.add(document);
+	}
+    
 	
 
 }

@@ -91,7 +91,7 @@ public class AdapterToList extends BaseAdapter {
 		viewHolder.tvcontent.setText(content);
 		viewHolder.tvdate.setText(date);
 		viewHolder.tvtypegroup.setText(typegroup);
-		viewHolder.tvcomment.setText("("+comment+") Commentarios");
+		viewHolder.tvcomment.setText("("+comment+") Comentarios");
 		
 		}
 //		else {

@@ -81,15 +81,9 @@ public class MainActivity extends ListActivity
 	}
 	protected void onListItemClick(ListView l, View v, int position, long id){
 		Intent intent = new Intent(getApplicationContext(), ViewCommentsActivity.class );
-		if(postClick.get(position).getComment().size()==0){
-			Toast toast1 = Toast.makeText(getApplicationContext(),
-					"No tiene comentarios.", Toast.LENGTH_SHORT);
-			toast1.show();
-		}else{
 			intent.putExtra("idpost", postClick.get(position).getId());
 			intent.putExtra("username", (String) getIntent().getExtras().get("username"));
 			startActivity(intent);
-		}
 	}
 	
 	private void setNotifications(){

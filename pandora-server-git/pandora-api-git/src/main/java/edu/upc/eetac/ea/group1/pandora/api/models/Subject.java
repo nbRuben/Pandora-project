@@ -8,6 +8,7 @@ public class Subject {
 	List<User> user; 
 	List<Post> post;
 	List<Notification> notification;
+	List<Document> document;
 	
 	public int getId() {
 		return id;
@@ -39,7 +40,11 @@ public class Subject {
 	public void setNotification(List<Notification> notification) {
 		this.notification = notification;
 	}
+	public List<Document> getDocument() {
+		return document;
+	}
+	public void setDocument(List<Document> document) {
+		this.document = document;
+	}
 	
-	
-
 }

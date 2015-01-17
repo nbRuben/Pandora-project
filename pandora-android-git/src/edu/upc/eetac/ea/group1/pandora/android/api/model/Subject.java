@@ -10,6 +10,7 @@ public class Subject implements Serializable{
 	List<User> user; 
 	List<Post> post;
 	List<Notification> notification;
+	List<Document> document;
 	
 	public String getId() {
 		return id;
@@ -40,6 +41,12 @@ public class Subject implements Serializable{
 	}
 	public void setNotification(List<Notification> notification) {
 		this.notification = notification;
+	}
+	public List<Document> getDocument() {
+		return document;
+	}
+	public void setDocument(List<Document> document) {
+		this.document = document;
 	}
 	
 	

@@ -43,17 +43,19 @@ public class PostAdapter extends BaseAdapter{
 		// TODO Auto-generated method stub
 		ViewHolder viewHolder = null;
 		if (convertView == null) {	
-		convertView = inflater.inflate(R.layout.comment_details, null);
+		convertView = inflater.inflate(R.layout.post_details, null);
 		viewHolder = new ViewHolder();
 		viewHolder.tvpost = (TextView) convertView
 				.findViewById(R.id.tvpost);
 		viewHolder.tvauthor = (TextView) convertView
 				.findViewById(R.id.tvauthor);
+		viewHolder.tvpostID = (TextView) convertView
+				.findViewById(R.id.tvpostID);
 
-		String author = data.get(position).getUser().getUsername();
-		String content = data.get(position).getContent();
-		viewHolder.tvauthor.setText(author);
-		viewHolder.tvpost.setText(content);
+		System.out.println(data.get(position));
+		viewHolder.tvauthor.setText(data.get(position).getUser().getUsername());
+		viewHolder.tvpost.setText(data.get(position).getContent());
+		viewHolder.tvpostID.setText(data.get(position).getId());
 		}
 		return convertView;
 	}
@@ -61,6 +63,7 @@ public class PostAdapter extends BaseAdapter{
 	private static class ViewHolder {
 		TextView tvpost;
 		TextView tvauthor;
+		TextView tvpostID;
 	}
 
 }

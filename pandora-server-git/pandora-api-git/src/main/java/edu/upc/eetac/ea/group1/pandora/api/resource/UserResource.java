@@ -47,7 +47,7 @@ public class UserResource {
 	@Produces(MediaType.PANDORA_API_USER)
 	public User login(@QueryParam("username") String username, @QueryParam("password") String password){
 		
-		   UserImplementation userImpl =  UserImplementation.getInstance();
+		UserImplementation userImpl =  UserImplementation.getInstance();
 		User u = userImpl.login(username, password);
 		return u;
 	}
@@ -94,10 +94,9 @@ public class UserResource {
 	
 	@POST
 	@Consumes(MediaType.PANDORA_API_USER)
-    public void addUser(Userdb user) {
-    	
+    public User addUser(Userdb user) {
 		UserImplementation userImpl =  UserImplementation.getInstance();
-    	userImpl.addUser(user);       
+    	return userImpl.addUser(user);       
     }
 	
 	@GET
