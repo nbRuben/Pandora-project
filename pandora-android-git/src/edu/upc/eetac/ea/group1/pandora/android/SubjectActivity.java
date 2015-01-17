@@ -24,18 +24,24 @@ public class SubjectActivity extends ListActivity{
 		setContentView(R.layout.activity_subject);
 		loadContent();
 	}
-	
-
-	
+		
 	private void loadContent(){
 		TextView content = (TextView) findViewById(R.id.tvcontent);
 		content.setText((String) getIntent().getExtras().get("subjectName"));
 		(new FetchCommentsTask()).execute();
 	}
 	
+	
+	public void goHome(View v){
+		Intent intent = new Intent(getApplicationContext(),
+				MainActivity.class);
+		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
+		startActivity(intent);
+	}
+	
 	public void postComment(View v){
 		Intent intent = new Intent(this, PostActivity.class);
-		intent.putExtra("idSubject", (String) getIntent().getExtras().getString("idSubject")); //cambiar id del subject dinamica
+		intent.putExtra("idSubject", (String) getIntent().getExtras().getString("idSubject"));
 		intent.putExtra("subjectName", (String) getIntent().getExtras().getString("subjectName"));
 		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
 		startActivity(intent);

@@ -57,7 +57,11 @@ public class LoginActivity extends Activity {
 			(new LoginTask()).execute(username, password);
 		}
 	}
-
+	
+	public void signInTwitter(View v){
+		startActivity(new Intent().setClass(v.getContext(),TwitterLoginActivity.class));
+	}
+	
 	String username;
 
 	@SuppressLint("NewApi")

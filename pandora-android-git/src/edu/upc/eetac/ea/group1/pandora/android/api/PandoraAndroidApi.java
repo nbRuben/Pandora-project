@@ -35,7 +35,7 @@ import edu.upc.eetac.ea.group1.pandora.android.api.model.User;
 public class PandoraAndroidApi {
 
 	private final static String BASE_URL = "http://10.89.130.60:8080/pandora-api/";
-	private final static String BASE_URL_VM = "http://10.0.2.2:8080/pandora-api/";
+	private final static String BASE_URL_VM = "http://10.189.59.53:8080/pandora-api/";
 	private final static String BASE_URL_CASA= "http://192.168.1.196:8080/pandora-api/";
 
 	Gson gson = new Gson();
@@ -68,7 +68,7 @@ public class PandoraAndroidApi {
 		HttpClient httpClient = WebServiceUtils.getHttpClient();
 		java.lang.reflect.Type arrayListType = new TypeToken<User>() {
 		}.getType();
-		String uurl = BASE_URL + "users";
+		String uurl = BASE_URL_VM + "users";
 		HttpPost httpPost = new HttpPost(uurl);
 		httpPost.setHeader("Content-Type",
 				"application/vnd.pandora.api.user+json");

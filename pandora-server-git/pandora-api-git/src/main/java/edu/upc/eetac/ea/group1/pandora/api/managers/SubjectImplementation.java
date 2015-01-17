@@ -213,7 +213,7 @@ public class SubjectImplementation implements Serializable {
 		// TODO Auto-generated method stub
 		Session session = factory.openSession();
 		SQLQuery query = session
-				.createSQLQuery("SELECT * FROM post WHERE subject_SUBJECT_ID= :idSubject");
+				.createSQLQuery("SELECT * FROM post WHERE subject_SUBJECT_ID= :idSubject ORDER BY date DESC");
 		query.addEntity(Postdb.class);
 		query.setInteger("idSubject", idSubject);
 		session.beginTransaction();

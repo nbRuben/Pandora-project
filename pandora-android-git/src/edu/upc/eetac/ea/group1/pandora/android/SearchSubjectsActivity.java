@@ -16,14 +16,17 @@ import edu.upc.eetac.ea.group1.pandora.android.api.SubjectAdapter;
 
 public class SearchSubjectsActivity extends ListActivity {
 
-	private PandoraAndroidApi api = new PandoraAndroidApi();
+	private PandoraAndroidApi api;
 	private SubjectAdapter adapter;
+	private String search;
 	private ArrayList<String> match;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_subject);
+		search = null;
 		this.match = new ArrayList<String>();
+		api = new PandoraAndroidApi();
 	} 
 	
 
@@ -37,15 +40,20 @@ public class SearchSubjectsActivity extends ListActivity {
 	
 	public void SearchSubject(View v){
 		EditText etSubject = (EditText) findViewById(R.id.etSubject);
-		String idSubject = etSubject.getText().toString();
+		search = etSubject.getText().toString();
 		this.match.clear();
-		(new FetchSubjectsTask()).execute(idSubject);
+		(new FetchSubjectsTask()).execute(search);
 	}
 
 	private void printSubjects(List<Subject> subjects){
-		adapter = new SubjectAdapter(this,(ArrayList<Subject>)subjects, (String) getIntent().getExtras().get("username"), (ArrayList<String>) match);
+		adapter = new SubjectAdapter(this,(ArrayList<Subject>)subjects, (String) getIntent().getExtras().get("username"), (ArrayList<String>) match, search);
 		setListAdapter(adapter);
 		adapter.notifyDataSetChanged();
+	}
+	
+	public void refreshSearch(String param){
+		System.out.println("realizando el refresh");
+		(new FetchSubjectsTask()).execute(param);
 	}
 
 	
@@ -53,7 +61,7 @@ public class SearchSubjectsActivity extends ListActivity {
 		private ProgressDialog pd;
 		@Override
 		protected List<Subject> doInBackground(String... params) {
-			
+			System.out.println("dentro del background con la busqueda " +params[0]);
 			List<Subject> subjects = null;
 			List<Subject> mySubjects = null;
 			match = new ArrayList<String>();
@@ -81,12 +89,7 @@ public class SearchSubjectsActivity extends ListActivity {
 		
 		@Override
 		protected void onPostExecute(List<Subject> result) {
-			if (result.size()==0){
 				printSubjects(result);
-			}
-			else{
-				printSubjects(result);
-			}
 			if (pd != null) {
 				pd.dismiss();
 			}

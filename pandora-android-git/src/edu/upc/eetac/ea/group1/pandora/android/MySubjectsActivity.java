@@ -20,7 +20,7 @@ import edu.upc.eetac.ea.group1.pandora.android.api.SubjectAdapter;
 
 public class MySubjectsActivity extends ListActivity {
 
-	private PandoraAndroidApi api = new PandoraAndroidApi();
+	private PandoraAndroidApi api;
 	private SubjectAdapter adapter;
 
 	private  List<String> match;
@@ -29,7 +29,8 @@ public class MySubjectsActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_subjects);
 		this.match = new ArrayList<String>();
-		loadContent();
+		api = new PandoraAndroidApi();
+		(new FetchSubjectsTask()).execute((String) getIntent().getExtras().get("username"));
 		
 	} 
 	
@@ -39,17 +40,6 @@ public class MySubjectsActivity extends ListActivity {
 		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
 		startActivity(intent);
 	}
-	
-	/*public void goToActivity(View v){
-		Intent intent = new Intent(this, SubjectActivity.class);
-		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
-		TextView subjectName = (TextView) findViewById(R.id.tvsubject);
-		TextView idSubject = (TextView) findViewById(R.id.tvsubjectID);
-		intent.putExtra("subjectName", subjectName.getText().toString());
-		intent.putExtra("idSubject", idSubject.getText().toString());
-		Log.i("SelectedGroupActivity","Nos vamos a Join con: "+(String) getIntent().getExtras().get("username"));
-    	startActivity(intent);
-	}*/
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -63,7 +53,6 @@ public class MySubjectsActivity extends ListActivity {
         case R.id.MnuOpc1:
         	Intent intent = new Intent(this, SearchSubjectsActivity.class);
     		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
-    		Log.i("SelectedGroupActivity","Nos vamos a Join con: "+(String) getIntent().getExtras().get("username"));
         	startActivity(intent);
     		return true;
     	default:
@@ -71,12 +60,8 @@ public class MySubjectsActivity extends ListActivity {
     	}
     }
 	
-	private void loadContent(){
-		(new FetchSubjectsTask()).execute((String) getIntent().getExtras().get("username"));
-	}
-	
 	private void printSubjects(List<Subject> subjects){
-		adapter = new SubjectAdapter(this,(ArrayList<Subject>)subjects, (String) getIntent().getExtras().get("username"), (ArrayList<String>) match);
+		adapter = new SubjectAdapter(this,(ArrayList<Subject>)subjects, (String) getIntent().getExtras().get("username"), (ArrayList<String>) match, null);
 		setListAdapter(adapter);
 		adapter.notifyDataSetChanged();
 	}
@@ -101,14 +86,7 @@ public class MySubjectsActivity extends ListActivity {
 		
 		@Override
 		protected void onPostExecute(List<Subject> result) {
-			if (result.size()==0){
-				
-				printSubjects(result);
-			}
-			else{
-				
-				printSubjects(result);
-			}
+			printSubjects(result);
 			if (pd != null) {
 				pd.dismiss();
 			}

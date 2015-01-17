@@ -24,6 +24,14 @@ public class PostActivity extends Activity{
 		(new PostCommentsTask()).execute(content);
 	}
 	
+	public void cancel(View v){
+		Intent intent = new Intent(getApplicationContext(), SubjectActivity.class);
+		intent.putExtra("idSubject", (String) getIntent().getExtras().getString("idSubject"));
+		intent.putExtra("subjectName", (String) getIntent().getExtras().getString("subjectName"));
+		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
+		startActivity(intent);
+	}
+	
 
 	private class PostCommentsTask extends AsyncTask<String, Void, Void> {
 		private ProgressDialog pd;
@@ -32,18 +40,18 @@ public class PostActivity extends Activity{
 	
 			try {
 				PandoraAndroidApi api = new PandoraAndroidApi();
-				api.addPost(params[0], (String) getIntent().getExtras().getString("idSubject"), (String) getIntent().getExtras().get("username"));//cambiar la id del subject dinamico
+				api.addPost(params[0], (String) getIntent().getExtras().getString("idSubject"), (String) getIntent().getExtras().get("username"));
 				Intent intent = new Intent(getApplicationContext(), SubjectActivity.class);
 				intent.putExtra("idSubject", (String) getIntent().getExtras().getString("idSubject"));
 				intent.putExtra("subjectName", (String) getIntent().getExtras().getString("subjectName"));
 				intent.putExtra("username", (String) getIntent().getExtras().get("username"));
 				startActivity(intent);
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return null;
 		}
+		
 		
 	}
 

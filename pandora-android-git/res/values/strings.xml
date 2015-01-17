@@ -9,7 +9,7 @@
     <string name="login_password">Password</string>
     <string name="button_signin">Sign in</string>
     <string name="button_twitter">Twitter</string>
-    <string name="button_facebook">Facebook</string>
+    <string name="button_facebook">Twitter</string>
     <string name="button_twitter_out">Sign out</string>
     <string name="desc">Description</string>
     <string name="register">Register</string>
