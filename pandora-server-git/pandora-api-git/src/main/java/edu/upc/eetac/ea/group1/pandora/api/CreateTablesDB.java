@@ -47,7 +47,7 @@ public class CreateTablesDB {
 		u.addSubject(s);
 		session.save(s);
 
-		Groupdb g = new Groupdb("EA Rules");
+		Groupdb g = new Groupdb("EA Rules","user1");
 		u.addGroup(g);
 		session.save(g);
 
@@ -83,7 +83,7 @@ public class CreateTablesDB {
 		g.addNotificacion(n);
 		session.save(n);
 
-		g = new Groupdb("PX - como mola el Pajek");
+		g = new Groupdb("PX - como mola el Pajek","user1");
 		u.addGroup(g);
 		session.save(g);
 
