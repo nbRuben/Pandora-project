@@ -2,7 +2,6 @@ package edu.upc.eetac.ea.group1.pandora.android;
 
 import java.io.IOException;
 
-
 import edu.upc.eetac.ea.group1.pandora.android.api.PandoraAndroidApi;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.User;
 import android.app.Activity;
@@ -19,8 +18,8 @@ import android.widget.Toast;
 public class RegisterActivity extends Activity {
 	private class registertask extends AsyncTask<String, Void, User> {
 
-		String username1;
-		User resp;
+		private String username1;
+		private User resp;
 
 		@Override
 		protected User doInBackground(String... params) {
@@ -39,9 +38,6 @@ public class RegisterActivity extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			System.out.println("DO IN BACKGROUNDD: " + resp.getName());
-
 			return resp;
 		}
 
@@ -49,20 +45,16 @@ public class RegisterActivity extends Activity {
 		protected void onPostExecute(User result) {
 
 			if (result == null) {
-				System.out.println("register result null");
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"Usuario ya registrado", Toast.LENGTH_LONG);
 				toast.show();
-			}
-
-			else {
+			} else {
 				Toast toast = Toast.makeText(getApplicationContext(),
 						" Bienvenido " + username1, Toast.LENGTH_LONG);
 				toast.show();
 				Intent intent = new Intent(getApplicationContext(),
 						MainActivity.class);
 				intent.putExtra("username", username1);
-
 				startActivity(intent);
 
 			}
@@ -113,9 +105,6 @@ public class RegisterActivity extends Activity {
 			}
 
 			else {
-
-				System.out.println("CONTRASSSSSSS " + password + " yyyyyyyyy "
-						+ cpass);
 				Toast toast = Toast.makeText(getApplicationContext(),
 						"Las constraseñas no coinciden", Toast.LENGTH_LONG);
 				toast.show();

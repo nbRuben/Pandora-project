@@ -1,6 +1,5 @@
 package edu.upc.eetac.ea.group1.pandora.android.api.model;
 
-import java.util.Date;
 
 public class Comment {
 	

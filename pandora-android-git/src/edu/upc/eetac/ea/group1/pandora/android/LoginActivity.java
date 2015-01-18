@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,7 +18,7 @@ import edu.upc.eetac.ea.group1.pandora.android.api.model.User;
 public class LoginActivity extends Activity {
 
 	private User user = new User();
-
+	private String username;
 	public String getMD5(String input) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
@@ -67,7 +66,6 @@ public class LoginActivity extends Activity {
 	    startActivity(intent);            
 	}
 	
-	String username;
 
 	@SuppressLint("NewApi")
 	private class LoginTask extends AsyncTask<String, Void, User> {
@@ -78,27 +76,20 @@ public class LoginActivity extends Activity {
 			User user = null;
 			PandoraAndroidApi api = new PandoraAndroidApi();
 			user = api.LoginUser(params[0], params[1]);
-			Log.i("LoginActivity", "Username: "+user.getUsername()+" Password: "+user.getUserpass());
 			return user;
 		}
 
 		@Override
 		protected void onPostExecute(User result) {
-
 			if (result == null) {
-				// error al obtener el usuario
 				Toast toast1 = Toast.makeText(getApplicationContext(),
 						"Algo ha salido mal. Intentelo de nuevo.",
 						Toast.LENGTH_SHORT);
 				toast1.show();
 
 			} else {
-
-				// el User se ha obtenido bien
 				String pass = getMD5(result.getUserpass());
 				if (user.getUserpass().equals(pass)) {
-
-					// Pasamos el user a MiniMainActivity
 					Intent intent = new Intent(getApplicationContext(),
 							MainActivity.class);
 					intent.putExtra("username", user.getUsername());

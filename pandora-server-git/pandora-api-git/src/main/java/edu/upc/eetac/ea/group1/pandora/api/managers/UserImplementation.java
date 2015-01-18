@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.ws.rs.BadRequestException;
@@ -17,28 +16,23 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
 import edu.upc.eetac.ea.group1.pandora.api.ConvertLists;
-import edu.upc.eetac.ea.group1.pandora.api.models.Comment;
-import edu.upc.eetac.ea.group1.pandora.api.models.Commentdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Group;
 import edu.upc.eetac.ea.group1.pandora.api.models.Groupdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Notification;
 import edu.upc.eetac.ea.group1.pandora.api.models.Notificationdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Post;
-import edu.upc.eetac.ea.group1.pandora.api.models.Postdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Subject;
 import edu.upc.eetac.ea.group1.pandora.api.models.Subjectdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.User;
 import edu.upc.eetac.ea.group1.pandora.api.models.Userdb;
 
+@SuppressWarnings("serial")
 public class UserImplementation implements Serializable {
 
-	// Atributos Hibernate
 	private AnnotationConfiguration config;
 	private SessionFactory factory;
-	// Atributos List que usaremos
 	public List<Userdb> users;
 
-	// Intancia
 	private static UserImplementation instance = null;
 
 	ConvertLists convertlist = ConvertLists.getInstance();
@@ -49,8 +43,7 @@ public class UserImplementation implements Serializable {
 		this.users = new ArrayList<Userdb>();
 
 		config = new AnnotationConfiguration();
-		config.addAnnotatedClass(Userdb.class);// si queremos otra clase(tabla)
-												// le añadiriamos otra
+		config.addAnnotatedClass(Userdb.class);
 		config.addAnnotatedClass(Groupdb.class);
 		config.addAnnotatedClass(Subjectdb.class);
 		config.addAnnotatedClass(Notificationdb.class);
@@ -96,32 +89,12 @@ public class UserImplementation implements Serializable {
 			throw new NotFoundException("Usuario " + user + " no encontrado");
 		else {
 			session.getTransaction().commit();
-
-			// Obtenemos parametros del user y lo pasamos al Userdb
-			/*
-			 * String username = userquery.getUsername(); String pass =
-			 * userquery.getUserpass(); String email = userquery.getEmail();
-			 * String name = userquery.getName(); String surname =
-			 * userquery.getSurname(); List<Postdb> postsdb =
-			 * userquery.getPost(); List<Groupdb> groupdb =
-			 * userquery.getGrupo(); List<Subjectdb> subectdb =
-			 * userquery.getSubject();
-			 */
-
-			// Cambiamos los comments, groups y subjects a db
 			List<Post> posts = convertlist
 					.convertListPosts(userquery.getPost());
 			List<Group> groups = convertlist.convertListGroups(userquery
 					.getGrupo());
 			List<Subject> subjects = convertlist.convertListSubjects(userquery
 					.getSubject());
-
-			// Metemos la info al Userdb
-			/*
-			 * u.setUsername(username); u.setUserpass(pass); u.setEmail(email);
-			 * u.setName(name); u.setSurname(surname); u.setPosts(postsdb);
-			 * u.setGroups(groupsdb); u.setSubjects(subjectsdb);
-			 */
 
 			u = userquery.convertFromDB();
 			u.setPosts(posts);
@@ -150,10 +123,8 @@ public class UserImplementation implements Serializable {
 
 	public User addUser(Userdb user) {
 
-		// Primero de todo comprobamos que los datos sean correctos.
 		validateUser(user, 0);
 
-		// hibernate session
 		SessionFactory factory = config.buildSessionFactory();
 		Session sesion = factory.getCurrentSession();
 		sesion.beginTransaction();
@@ -165,7 +136,6 @@ public class UserImplementation implements Serializable {
 		u.setSurname(user.getSurname());
 		u.setEmail(user.getEmail());
 
-		// Guardo User
 		sesion.save(user);
 		sesion.getTransaction().commit();
 
@@ -175,13 +145,12 @@ public class UserImplementation implements Serializable {
 	public int updateUser(Userdb user, String username) {
 		validateUser(user, 1);
 
-		// hibernate session
 		SessionFactory factory = config.buildSessionFactory();
 		Session session = factory.getCurrentSession();
 		session.beginTransaction();
 
 		try {
-			session.save(user); // guardo user
+			session.save(user);
 			session.getTransaction().commit();
 
 		} catch (Exception e) {
@@ -205,10 +174,8 @@ public class UserImplementation implements Serializable {
 				.createSQLQuery("SELECT s.name, s.subject_id FROM subject s, user_subject u WHERE u.user_USERNAME = :username AND u.subject_SUBJECT_ID = s.subject_id");
 		query.addEntity(Subjectdb.class);
 		query.setString("username", username);
-		System.out.println("Query: " + query.toString());
 		session.beginTransaction();
 
-		System.out.println("");
 		@SuppressWarnings("unchecked")
 		List<Subjectdb> subjectdb = query.list();
 		List<Subject> subjects = convertlist.convertListSubjects(subjectdb);
@@ -216,13 +183,7 @@ public class UserImplementation implements Serializable {
 		session.getTransaction().commit();
 		session.close();
 
-		System.out.println("Entrega de subjects: ");
 		return subjects;
-	}
-
-	public int deleteUser(String username) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	private void validateUser(Userdb user, int op) {
@@ -249,8 +210,7 @@ public class UserImplementation implements Serializable {
 			throw new BadRequestException(
 					"Demasiados caracteres para tu Name, no puede superrar los 254 caracteres.");
 		if (op == 0) {
-			if (searchUserInDB(user.getUsername()) == 0)// Miramos si el user ya
-														// existe
+			if (searchUserInDB(user.getUsername()) == 0)
 				throw new BadRequestException("Usuario " + user.getUsername()
 						+ " ya existe.");
 		}
@@ -267,7 +227,7 @@ public class UserImplementation implements Serializable {
 		Userdb userquery = (Userdb) query.uniqueResult();
 		session.getTransaction().commit();
 
-		if (userquery == null) {// No existe ningun user con ese username
+		if (userquery == null) {
 			session.close();
 			return 1;
 		}
@@ -290,7 +250,7 @@ public class UserImplementation implements Serializable {
 		Userdb userquery = (Userdb) query.uniqueResult();
 		session.getTransaction().commit();
 
-		if (userquery == null) {// No existe ningun user con ese username
+		if (userquery == null) {
 			throw new NotFoundException("No se ha encontrado al usuario: "
 					+ username);
 		}
@@ -305,36 +265,24 @@ public class UserImplementation implements Serializable {
 	public void addSubjectToUser(String username, int idSubject) {
 
 		try {
-			// hibernate session
-			System.out.println("dentro de la api");
-			System.out.println("el user es " + username);
 			SessionFactory factory = config.buildSessionFactory();
 			Session sesion = factory.getCurrentSession();
 			sesion.beginTransaction();
 			Userdb u = (Userdb) sesion.get(Userdb.class, new String(username));
-			System.out.println("el usuario es " + u);
 			SubjectImplementation impl = SubjectImplementation.getInstance();
 			Subjectdb s = impl.getSubjectdb(idSubject);
-			System.out.println("el subjects es " + s.getName());
-			System.out.println("ya he cogido todos los datos");
 			u.addSubject(s);
-			System.out.println("subject guardado");
 			// Guardo User
 			sesion.save(u);
-			System.out.println("usuario guardado");
 			sesion.getTransaction().commit();
-			System.out.println("commit hecho");
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			// throw new
-			// BadRequestException("No se ha podido crear el usuario.");
 		}
 
 	}
 
 	public void deleteSubjectFromUser(String username, int idSubject) {
-		System.out.println("borrando");
 		SessionFactory factory = config.buildSessionFactory();
 		Session sesion = factory.getCurrentSession();
 		sesion.beginTransaction();
@@ -343,21 +291,13 @@ public class UserImplementation implements Serializable {
 		Subjectdb s = impl.getSubjectdb(idSubject);
 		List<Subjectdb> ls = u.getSubject();
 		for (int i = 0; i < ls.size(); i++) {
-			System.out.println("Contiene: " + ls.get(i).getName());
-		}
-		for (int i = 0; i < ls.size(); i++) {
 			if (ls.get(i).getId() == s.getId()) {
 				ls.remove(i);
 			}
 		}
-		for (int i = 0; i < ls.size(); i++) {
-			System.out.println("Contiene ahora: " + ls.get(i).getName());
-		}
 		u.setSubject(ls);
-		// Guardo User
 		sesion.save(u);
 		sesion.getTransaction().commit();
-		System.out.println("commit hecho");
 	}
 
 	public User login(String username, String password) {
@@ -399,7 +339,6 @@ public class UserImplementation implements Serializable {
 		Session session = factory.openSession();
 		session.beginTransaction();
 		notification.setRead(true);
-		// Guardo User
 		session.update(notification);
 		session.getTransaction().commit();
 	}

@@ -62,15 +62,6 @@ public class UserResource {
 	       
 	}
 	
-	@DELETE
-    @Path ("/{user}")
-    public void deleteUser (@PathParam("user") String user)
-    { 
-		UserImplementation userImpl =  UserImplementation.getInstance();
-   	    userImpl.deleteUser(user);	 
-    }
-	
-	
 	@GET
 	@Path ("/{user}/notifications")
 	public List<Notification> getNotifications(@PathParam("user") String username)
@@ -109,50 +100,6 @@ public class UserResource {
 		
 		return subs;
 	}
-	
-	@GET
-	@Path("/{user}/subjects/{idsubject}")
-	public Subject getSubject(@PathParam ("user") String username, @PathParam ("subject") int subject)
-	{
-		Subject sub = new Subject();
-		ManagerImplementation impl = ManagerImplementation.getInstance();
-		sub= impl.getUserSubject(username, subject);
-		
-		return sub;
-	}
-	
-	
-	
-	@GET
-	@Path("/{user}/groups")
-	public List<Group> getGroups(@PathParam ("user") String username)
-	{
-		List<Group> grups = new ArrayList<Group>();
-		ManagerImplementation impl = ManagerImplementation.getInstance();
-		grups= impl.getUserGroups();
-		
-		return grups;
-	}
-	
-	@GET
-	@Path("/{user}/groups/{idgroup}")
-	public Group getGroup(@PathParam ("user") String username, @PathParam ("group") int group)
-	{
-		Group grup = new Group();
-		ManagerImplementation impl = ManagerImplementation.getInstance();
-		grup= impl.getUserGroup(username, group);
-		
-		return grup;
-	}
-	
-	@POST
-	@Path("/{user}/groups")
-	@Consumes(MediaType.PANDORA_API_GROUP)
-	public void addGroup(Groupdb group) {
-    	
-    	ManagerImplementation impl =  ManagerImplementation.getInstance();
-    	impl.addGroup(group);       
-    }
 	
 	@GET
 	@Path("/{user}/activityrecent")

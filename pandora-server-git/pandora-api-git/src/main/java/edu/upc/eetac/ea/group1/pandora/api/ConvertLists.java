@@ -18,11 +18,8 @@ import edu.upc.eetac.ea.group1.pandora.api.models.Userdb;
 
 public class ConvertLists {
 	
-	//Intancia
 		private static ConvertLists instance = null;
-		
-		
-		
+
 		private ConvertLists(){
 			super();
 		}

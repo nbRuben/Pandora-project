@@ -30,6 +30,16 @@
             android:layout_marginTop="5dip"
             android:background="#33AA00"
             android:text="Aceptar"
+            android:textColor="#fff" 
+            android:layout_marginRight="5dip"/>
+           <Button
+            android:id="@+id/bReject"
+            android:layout_width="100dip"
+            android:layout_height="50dip"
+            android:layout_marginBottom="5dip"
+            android:layout_marginTop="5dip"
+            android:background="#CC0000"
+            android:text="Rechazar"
             android:textColor="#fff" />
     </LinearLayout>
 

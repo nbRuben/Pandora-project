@@ -1,14 +1,12 @@
 package edu.upc.eetac.ea.group1.pandora.api.resource;
 
-import java.io.File;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
@@ -20,9 +18,6 @@ import edu.upc.eetac.ea.group1.pandora.api.models.Documentdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Post;
 import edu.upc.eetac.ea.group1.pandora.api.models.Postdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Subject;
-import edu.upc.eetac.ea.group1.pandora.api.models.Subjectdb;
-import edu.upc.eetac.ea.group1.pandora.api.models.User;
-import edu.upc.eetac.ea.group1.pandora.api.models.Userdb;
 
 @Path("/subjects")
 public class SubjectResource {
@@ -101,33 +96,6 @@ public class SubjectResource {
 		impl.addDocumentsToSubject(idSubject, document);
 		
 	}
-	
-	@PUT
-    @Path("/{idsubject}")
-	@Consumes(MediaType.PANDORA_API_SUBJECT)
-	public void updateSubject(@PathParam("subject") int idsubject, Subjectdb subject){
-	    	
-
-		SubjectImplementation impl = SubjectImplementation.getInstance();
-	    impl.updateSubject( subject, idsubject);
-	       
-	}
-	
-	@DELETE
-    @Path ("/{idsubject}")
-    public void deleteUser (@PathParam("idsubject") int idsubject)
-    { 
-		SubjectImplementation impl = SubjectImplementation.getInstance();
-   	    impl.deleteSubject(idsubject);	 
-    }
-	
-	@POST
-	@Consumes(MediaType.PANDORA_API_SUBJECT)
-    public void addSubject(Subjectdb subject) {
-
-		SubjectImplementation impl = SubjectImplementation.getInstance();
-    	impl.addSubject(subject);       
-    }
 	
 	@POST
 	@Path ("/{idsubject}/posts")

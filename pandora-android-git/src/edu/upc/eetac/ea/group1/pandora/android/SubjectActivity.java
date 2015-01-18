@@ -1,6 +1,6 @@
 package edu.upc.eetac.ea.group1.pandora.android;
 
-import java.io.File;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,11 +11,8 @@ import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.TextView;
 
@@ -63,7 +60,6 @@ public class SubjectActivity extends ListActivity{
 	
 	
 	public void goToDocuments(View v){
-		//TextView subjectID = (TextView) findViewById(R.id.tvsubjectID);
 		Intent intent = new Intent(this, DocumentsActivity.class);
 		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
 		intent.putExtra("idSubject", (String) getIntent().getExtras().getString("idSubject"));
@@ -75,6 +71,10 @@ public class SubjectActivity extends ListActivity{
 		setListAdapter(adapter);
 		adapter.notifyDataSetChanged();
 	}
+	
+	
+	public void goToUploadDoc(View v){
+	}
 	@SuppressLint("NewApi") 
 	private class FetchCommentsTask extends AsyncTask<String, Void, List<Post>> {
 		private ProgressDialog pd; 
@@ -83,7 +83,7 @@ public class SubjectActivity extends ListActivity{
 			
 			List<Post> posts = null;
 			try {
-				posts = api.getPosts((String) getIntent().getExtras().getString("idSubject")); //cambiar el pasar id
+				posts = api.getPosts((String) getIntent().getExtras().getString("idSubject"));
 
 			} catch (Exception e) {
 				e.printStackTrace();

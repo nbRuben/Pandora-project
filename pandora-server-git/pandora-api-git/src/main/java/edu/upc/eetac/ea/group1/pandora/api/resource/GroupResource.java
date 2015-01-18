@@ -21,15 +21,6 @@ import edu.upc.eetac.ea.group1.pandora.api.models.Groupdb;
 public class GroupResource {
 	
 	@GET
-	public List<Groupdb> getGroups()
-	{
-		GroupImplementation groupImpl = GroupImplementation.getInstance();
-		List<Groupdb> groups= groupImpl.getGroups();
-		
-		return groups;
-	}
-	
-	@GET
 	@Path ("/{group}")
 	public Group getGroup(@PathParam("group") String group) {
 	    	
@@ -41,7 +32,7 @@ public class GroupResource {
 	}
 	
 	@GET
-	@Path ("/users/{user}")//SUSCEPTIBLE DE CAMBIAR A USERRESOURCE
+	@Path ("/users/{user}")
 	public List<Group> getGroupbyUser(@PathParam("user") String username) {
 	    	
 		GroupImplementation groupImpl = GroupImplementation.getInstance();

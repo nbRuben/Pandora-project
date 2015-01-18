@@ -1,13 +1,11 @@
 package edu.upc.eetac.ea.group1.pandora.android;
 
-
 import edu.upc.eetac.ea.group1.pandora.android.api.PandoraAndroidApi;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 
 public class PostActivity extends Activity{
@@ -34,7 +32,6 @@ public class PostActivity extends Activity{
 	
 
 	private class PostCommentsTask extends AsyncTask<String, Void, Void> {
-		private ProgressDialog pd;
 		@Override
 		protected Void doInBackground(String... params) {
 	

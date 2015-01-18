@@ -3,7 +3,6 @@ package edu.upc.eetac.ea.group1.pandora.android.api;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,10 +52,6 @@ public class AdapterToListComment extends BaseAdapter {
 				.findViewById(R.id.tvowner);
 		viewHolder.tvdate = (TextView) convertView
 				.findViewById(R.id.tvdate);
-		
-		Log.i("MiniAPI","Content: "+data.get(position).getContent());
-		Log.i("MiniAPI","Owner: "+data.get(position).getUser().getUsername());
-		Log.i("MiniAPI","Date: "+data.get(position).getDate());
 		String content = data.get(position).getContent();
 		String owner = data.get(position).getUser().getUsername();
 		String date = data.get(position).getDate().toString();

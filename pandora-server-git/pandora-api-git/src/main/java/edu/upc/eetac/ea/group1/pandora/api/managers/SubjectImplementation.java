@@ -1,14 +1,10 @@
 package edu.upc.eetac.ea.group1.pandora.api.managers;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Application;
@@ -20,11 +16,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
 import edu.upc.eetac.ea.group1.pandora.api.ConvertLists;
-import edu.upc.eetac.ea.group1.pandora.api.models.Comment;
-import edu.upc.eetac.ea.group1.pandora.api.models.Commentdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Document;
 import edu.upc.eetac.ea.group1.pandora.api.models.Documentdb;
-import edu.upc.eetac.ea.group1.pandora.api.models.Group;
 import edu.upc.eetac.ea.group1.pandora.api.models.Groupdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Notification;
 import edu.upc.eetac.ea.group1.pandora.api.models.Notificationdb;
@@ -40,12 +33,9 @@ public class SubjectImplementation implements Serializable {
 
 	@Context
 	private Application app;
-	// Atributos Hibernate
 	private AnnotationConfiguration config;
 	private SessionFactory factory;
-	// Atributos List que usaremos
 	public List<Subjectdb> subjects;
-	// Intancia
 	private static SubjectImplementation instance = null;
 	ConvertLists convertList = ConvertLists.getInstance();
 
@@ -54,8 +44,7 @@ public class SubjectImplementation implements Serializable {
 		this.subjects = new ArrayList<Subjectdb>();
 
 		config = new AnnotationConfiguration();
-		config.addAnnotatedClass(Userdb.class);// si queremos otra clase(tabla)
-												// le añadiriamos otra
+		config.addAnnotatedClass(Userdb.class);
 		config.addAnnotatedClass(Groupdb.class);
 		config.addAnnotatedClass(Subjectdb.class);
 		config.addAnnotatedClass(Notificationdb.class);
@@ -77,7 +66,6 @@ public class SubjectImplementation implements Serializable {
 		query.addEntity(Subjectdb.class);
 		query.setInteger("idsubject", id);
 		session.beginTransaction();
-		Subject s = new Subject();
 		Subjectdb subjectquery = (Subjectdb) query.uniqueResult();
 
 		session.close();
@@ -101,27 +89,18 @@ public class SubjectImplementation implements Serializable {
 		else {
 
 			session.getTransaction().commit();
-
-			// Obtenemos parametros del subject y los parseamos a Userdb
-
 			String subjectName = subjectquery.getName();
 			int subjectID = subjectquery.getId();
 			List<Userdb> subjectUsers = subjectquery.getUser();
 			List<Postdb> subjectPosts = subjectquery.getPost();
 			List<Notificationdb> subjectNotifications = subjectquery
 					.getNotification();
-
-			// cambiamos las listas a db
-
 			List<User> subjectUsersdb = convertList
 					.convertListUsers(subjectUsers);
 			List<Post> subjectPostdb = convertList
 					.convertListPosts(subjectPosts);
 			List<Notification> subjectNotificationdb = convertList
 					.convertListNotifications(subjectNotifications);
-
-			// Metemos la info al Subjectdb
-
 			s.setName(subjectName);
 			s.setId(subjectID);
 			s.setUser(subjectUsersdb);
@@ -148,22 +127,7 @@ public class SubjectImplementation implements Serializable {
 
 		return subjects;
 	}
-
-	public int addSubject(Subjectdb subject) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public int updateSubject(Subjectdb subject, int idSubject) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public int deleteSubject(int idSubject) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	
 	private void validateSubject(Subjectdb subject, int op) {
 		if (subject.getName() == null)
 			throw new BadRequestException(
@@ -210,13 +174,9 @@ public class SubjectImplementation implements Serializable {
 			post.setSubject(getSubjectdb(idSubject));
 			Date date = new Date();
 			post.setDate(date);
-			System.out.println("el post es " + post.getContent()
-					+ " con fecha " + post.getDate() + " el user es "
-					+ post.getUser().getUsername());
 			sesion.save(post);
 			sesion.getTransaction().commit();
 			sesion.close();
-			System.out.println("llego4");
 			return 1;
 		} catch (Exception e) {
 
@@ -251,6 +211,7 @@ public class SubjectImplementation implements Serializable {
 			post.setId(p.getId());
 			post.setContent(p.getContent());
 			post.setUser(p.getUser().convertFromDB());
+			post.setDate(p.getDate());
 			posts.add(post);
 		}
 

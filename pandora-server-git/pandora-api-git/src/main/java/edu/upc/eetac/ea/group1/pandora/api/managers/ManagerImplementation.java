@@ -17,8 +17,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-import edu.upc.eetac.ea.group1.pandora.api.models.Comment;
-import edu.upc.eetac.ea.group1.pandora.api.models.Commentdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Group;
 import edu.upc.eetac.ea.group1.pandora.api.models.Groupdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Notification;
@@ -30,20 +28,16 @@ import edu.upc.eetac.ea.group1.pandora.api.models.Subjectdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.User;
 import edu.upc.eetac.ea.group1.pandora.api.models.Userdb;
 
+@SuppressWarnings("serial")
 public class ManagerImplementation implements  Serializable{
 	
-	//Atributos Hibernate
 	private AnnotationConfiguration config;
 	private SessionFactory factory;
-	//Atributos List que usaremos
 	public List<Userdb> users;
 	public List<Groupdb> groups;
 	public List<Subjectdb> subjects;
-	//Intancia
 	private static ManagerImplementation instance = null;
-	
-	
-	
+
 	private ManagerImplementation(){
 		super();
 		
@@ -52,7 +46,7 @@ public class ManagerImplementation implements  Serializable{
 		this.subjects = new ArrayList<Subjectdb>();
 		
 		config = new AnnotationConfiguration();
-		config.addAnnotatedClass(Userdb.class);//si queremos otra clase(tabla) le añadiriamos otra
+		config.addAnnotatedClass(Userdb.class);
 		config.addAnnotatedClass(Groupdb.class);
 		config.addAnnotatedClass(Subjectdb.class);
 		config.addAnnotatedClass(Notificationdb.class);
@@ -84,7 +78,6 @@ public class ManagerImplementation implements  Serializable{
         }
     }
     
-	
 	public User getUser(String user) {
 		
 		Session session = factory.openSession();
@@ -99,8 +92,6 @@ public class ManagerImplementation implements  Serializable{
 			throw new NotFoundException ("Usuario "+ user + " no encontrado");
 		else{
 			session.getTransaction().commit();
-			
-			//Obtenemos parametros del user y lo pasamos al Userdb
 			String username = userquery.getUsername();
 			String pass = userquery.getUserpass();
 			String email = userquery.getEmail();
@@ -110,12 +101,10 @@ public class ManagerImplementation implements  Serializable{
 			List <Groupdb> group = userquery.getGrupo();
 			List <Subjectdb> subect = userquery.getSubject();
 						
-			//Cambiamos los comments, groups y subjects a db
 			List<Post> postsdb = convertListPosts(posts);
 			List<Group> groupsdb = convertListGroups(group);
 			List<Subject> subjectsdb = convertListSubjects(subect);
 			
-			//Metemos la info al Userdb
 			u.setUsername(username);
 			u.setUserpass(pass);
 			u.setEmail(email);
@@ -124,27 +113,20 @@ public class ManagerImplementation implements  Serializable{
 			u.setPosts(postsdb);
 			u.setGroups(groupsdb);
 			u.setSubjects(subjectsdb);
-						
 		}
-								
 		return u;
 	}
 
 	
 	public User addUser(Userdb user) {
-		
-		//Primero de todo comprobamos que los datos sean correctos.
 		validateUser(user,0);
 		
-		//hibernate session
 		SessionFactory factory = config.buildSessionFactory();
 		Session sesion = factory.getCurrentSession();
 		sesion.beginTransaction();	
 		
-		//Guardo User
 		sesion.save(user);
 		sesion.getTransaction().commit();
-		
 		
 		return null;
 	}
@@ -153,57 +135,23 @@ public class ManagerImplementation implements  Serializable{
 	public int updateUser(Userdb user, String username) {
 		
 		validateUser(user,1);
-		
-		//hibernate session
 		SessionFactory factory = config.buildSessionFactory();
 		Session session = factory.getCurrentSession();
 		session.beginTransaction();	
 		
 		try{
-			session.save(user); //guardo user
+			session.save(user); 
 			session.getTransaction().commit();	
-			
 		}catch(Exception e){
 			
 			session.close();
 			return 0;
 			
 		}finally{
-			
 			session.close();	
-			
 		}
-		
 		return 1;
 	}
-
-	
-	public int deleteUser(String username) {
-
-		//Primero de todo eliminamos los comentarios del usuario y el usuario en los grupos.
-		
-		return 0;
-	}
-
-	
-	public Post getPost(int idpost) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	
-	public int updatePost(Postdb post, int idpost) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-	public int deletePost(int idpost) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	
 	public Subject getSubject(int id) {
 		
@@ -217,12 +165,9 @@ public class ManagerImplementation implements  Serializable{
 		
 		if (subjectquery == null)
 				throw new NotFoundException ("Subject con ID " + id + " no encontrado");
-		
 		else {
 			
 			session.getTransaction().commit();
-			
-			//Obtenemos parametros del subject y los parseamos a Userdb
 			
 			String subjectName = subjectquery.getName();
 			int subjectID = subjectquery.getId();
@@ -230,13 +175,9 @@ public class ManagerImplementation implements  Serializable{
 			List<Postdb> subjectPosts = subjectquery.getPost();
 			List<Notificationdb> subjectNotifications = subjectquery.getNotification();
 			
-			//cambiamos las listas a db
-			
 			List<User> subjectUsersdb = convertListUsers(subjectUsers); 
 			List<Post> subjectPostdb = convertListPosts(subjectPosts);
 			List<Notification> subjectNotificationdb = convertListNotifications(subjectNotifications);
-			
-			//Metemos la info al Subjectdb
 			
 			s.setName(subjectName);
 			s.setId(subjectID);
@@ -247,193 +188,12 @@ public class ManagerImplementation implements  Serializable{
 	
 		return s;
 	}
-
-	
-	public int addSubject(Subjectdb subject) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-	public int updateSubject(Subjectdb subject, int idsubject) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-	public int deleteSubject(int idsubject) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-	public Group getGroup(String nameGroup) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	public int addGroup(Groupdb group) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-	public int updateGroup(Groupdb group, String nameGroup) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-	public int deleteGroup(String nameGroup) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-	public Notification getNotification(String nameGroup) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	public int addNotification(Groupdb group) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-	public int deleteNotification(String nameGroup) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-	public List<Post> getComments(String typeComment) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	public List<User> getParticipants(String nameGroup) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	public List<User> searchUser(String search) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	public List<Group> searchGroup(String search) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	public User login(String username, String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	public int deleteUserFromGroup(String username, String nameGroup) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-	public User addUserInGroup(Userdb user, String nameGroup) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	public User addUserInSubject(Userdb user, String nameGroup) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Groupdb> getGroups() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Subject> getSubjects() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void updateSubject(String subject, Subject subjects2) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void updateGroup(String group, Groupdb groups2) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void updateUser(User user, String username) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public List<Subject> getUserSubjects() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Subject getUserSubject(String username, int subject) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Group> getUserGroups() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Group getUserGroup(String username, int group) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	public Comment getComment(int idcomment) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	public int addComment(Commentdb comment,String owner, int postid) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-	public int updateComment(Commentdb postt, int idcomment) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-	public int deleteComment(int idcomment) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	
 	public List<Post> getActivityRecent(String username) {
-		//Transformar el formato del date, introducirlo segun el usuario.
 		Date now = new Date();
 		System.out.println("Fecha (Date): "+now);
 		SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		String dnow =ft.format(now);
-		System.out.println("Fecha (SimpleDateFormat): "+ft.format(now) );
-		System.out.println("Fecha (String): "+dnow );
 		Session session = factory.openSession();
 		SQLQuery query = session.createSQLQuery("SELECT * FROM post p INNER JOIN user u WHERE p.user_USERNAME=u.USERNAME AND DATE<:date");
 		query.addEntity(Postdb.class);
@@ -444,9 +204,7 @@ public class ManagerImplementation implements  Serializable{
 		List<Postdb> postsdb = query.list();
 		
 		if(postsdb == null){
-			System.out.println("No hay actividad reciente.");
 			throw new NotFoundException ("No hay actividad reciente.");
-			
 		}
 		else{
 			session.getTransaction().commit();
@@ -454,29 +212,18 @@ public class ManagerImplementation implements  Serializable{
 			
 			for(Postdb postdb: postsdb){
 				Post post = postdb.convertFromDB();
-				System.out.println("ID del post: "+postdb.getId());
 				
 				if(postdb.getGrupo()!= null){
-					System.out.println("Dentro de un grupo.");
 					for(Userdb userdb: postdb.getGrupo().getUser()){
-						System.out.println("Revisando si el user esta en el posible grupo");
 						if(username.equals(userdb.getUsername()))
-							System.out.println("Post de grupo metido.");
-							System.out.println("User propietario: "+postdb.getUser().getUsername());
 							post.setUser(postdb.getUser().convertFromDB());
 							post.setGrupo(postdb.getGrupo().convertFromDB());
 							p.add(post);
 					}
 				}
 				else{
-					System.out.println("Estamos dentro de una asignatura.");
 					for(Userdb userdb: postdb.getSubject().getUser()){
-						System.out.println("Revisando si el user esta en el posible asigantura");
-						System.out.println("Userdb.getUsername()="+userdb.getUsername()+" username="+username);
 						if(username.equals(userdb.getUsername())){
-							System.out.println("Dentro hemos encontrado el usuario. PostID= "+ post.getId());
-							System.out.println("Post de asignatura metido");
-							System.out.println("User propietario: "+postdb.getUser().getUsername());
 							post.setUser(postdb.getUser().convertFromDB());
 							post.setSubject(postdb.getSubject().convertFromDB());
 							p.add(post); 
@@ -490,7 +237,6 @@ public class ManagerImplementation implements  Serializable{
 		return p;
 	}
 	
-	//Esto m lo he sacado yo de la manga------------------------------------------
 		public List<Post> convertListPosts( List<Postdb> postsdb){
 			
 			List<Post> posts = new ArrayList<Post>();
@@ -564,7 +310,7 @@ public class ManagerImplementation implements  Serializable{
 			if(user.getName().length()>254)
 				throw new BadRequestException("Demasiados caracteres para tu Name, no puede superrar los 254 caracteres.");
 			if(op==0){
-				if(searchUserInDB(user.getUsername())!=0)//Miramos si el user ya existe
+				if(searchUserInDB(user.getUsername())!=0)
 					throw new BadRequestException("Usuario "+ user.getUsername()+" ya existe.");
 			}
 		}
@@ -575,10 +321,9 @@ public class ManagerImplementation implements  Serializable{
 			if(subject.getName().length()>254)
 				throw new BadRequestException("Demasiados caracteres para tu Name, no puede superrar los 254 caracteres.");
 			if(op==0){
-				if(searchSubjectInDB(subject.getId())!=0)//Miramos si el subject ya existe
+				if(searchSubjectInDB(subject.getId())!=0)
 					throw new BadRequestException("Subject "+ subject.getName()+" ya existe.");
 			}
-				
 		}
 		
 		private int searchSubjectInDB(int id) {
@@ -612,7 +357,7 @@ public class ManagerImplementation implements  Serializable{
 			Userdb userquery = (Userdb) query.uniqueResult();
 			session.getTransaction().commit();
 			
-			if(userquery == null){//No existe ningun user con ese username
+			if(userquery == null){
 				session.close();
 				return 1;
 			}
@@ -623,25 +368,5 @@ public class ManagerImplementation implements  Serializable{
 			}
 				
 		}
-
-		
-		public int addPost(Postdb post, int idSubject, int idGroup) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		
-		public List<Post> getCommentsFromSubject(int idSubject) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		
-		public List<Subject> searchSubject(String subject) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-
 
 }

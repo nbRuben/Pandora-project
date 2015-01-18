@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -38,7 +36,7 @@ import edu.upc.eetac.ea.group1.pandora.android.api.model.User;
 public class PandoraAndroidApi {
 
 	private final static String BASE_URL = "http://10.89.130.60:8080/pandora-api/";
-	private final static String BASE_URL_VM = "http://10.189.59.53:8080/pandora-api/";//"http://10.0.2.2:8080/pandora-api/";
+	private final static String BASE_URL_VM = "http://10.0.2.2:8080/pandora-api/";//"http://10.189.59.53:8080/pandora-api/";
 	private final static String BASE_URL_CASA= "http://192.168.1.196:8080/pandora-api/";
 
 	Gson gson = new Gson();
@@ -48,7 +46,6 @@ public class PandoraAndroidApi {
 		java.lang.reflect.Type arrayListType = new TypeToken<User>() {
 		}.getType();
 		gson = new Gson();
-		Log.i("PandoraAPI", "Username: "+username+" Password: "+pass);
 		String uurl = BASE_URL_VM + "users/" + username;
 		HttpClient httpClient = WebServiceUtils.getHttpClient();
 		try {
@@ -118,8 +115,6 @@ public class PandoraAndroidApi {
 		try {
 			HttpResponse response = httpClient.execute(new HttpGet(BASE_URL_VM
 					+ "users/" + user + "/activityrecent"));
-			Log.i("MiniAPI", "GET a la URL: " + BASE_URL_VM + "users/" + user
-					+ "/activityrecent");
 			if (response == null) {
 				Log.i("MiniAPI",
 						"No se ha recibido bien la respuesta del servidor.");
@@ -148,13 +143,11 @@ public class PandoraAndroidApi {
 		try{
 			String url= BASE_URL_VM+"posts/"+post;
 			HttpResponse response = httpClient.execute(new HttpGet(url));
-			Log.i("MiniAPI","GET a la URL: "+url);
 			if(response==null){
 						Log.i("MiniAPI","No se ha recibido bien la respuesta del servidor.");
 			}
 			HttpEntity entity = response.getEntity();
 			Reader reader = new InputStreamReader(entity.getContent());
-			Log.i("MiniAPI","Ahora Deserializamos con GSON");
 			data = gson.fromJson(reader,  arrayListType);	
 		
 		}catch(Exception e){
@@ -210,13 +203,10 @@ public class PandoraAndroidApi {
 
 		HttpClient httpClient = WebServiceUtils.getHttpClient();
 		try {
-			System.out.println("dentro del try");
 			HttpResponse response = httpClient.execute(new HttpGet(url));
-			System.out.println("despues del response");
 			HttpEntity entity = response.getEntity();
 			Reader reader = new InputStreamReader(entity.getContent());
 			subject = gson.fromJson(reader, objectType);
-			System.out.println("el subject obtenido es " + subject.getId() + " " + subject.getName());
 		} catch (Exception e) {
 
 		}
@@ -246,14 +236,12 @@ public class PandoraAndroidApi {
 		java.lang.reflect.Type arrayListType = new TypeToken<User>() {
 		}.getType();
 		String url = BASE_URL_VM + "users/" + username;
-		System.out.println("Petición de getUser: "+url);
 		HttpClient httpClient = WebServiceUtils.getHttpClient();
 		try {
 			HttpResponse response = httpClient.execute(new HttpGet(url));
 			HttpEntity entity = response.getEntity();
 			Reader reader = new InputStreamReader(entity.getContent());
 			u = gson.fromJson(reader, arrayListType);
-			System.out.println("Usuario encontrado: "+u.getUsername());
 		} catch (Exception e) {
 			u=null;
 		}
@@ -274,7 +262,6 @@ public class PandoraAndroidApi {
 		try {
 			StringEntity se = new StringEntity(gson.toJson(p));
 			httpPost.setEntity(se);
-
 			HttpResponse response = httpClient.execute(httpPost);
 
 		} catch (Exception e) {
@@ -293,16 +280,10 @@ public class PandoraAndroidApi {
 		Post p = new Post();
 		p.setContent(content);
 		p.setUser(getUser(author));
-
-		System.out.println("llego aqui");
 		try {
 			StringEntity se = new StringEntity(gson.toJson(p));
 			httpPost.setEntity(se);
-
-			System.out.println("llego aqui2");
 			HttpResponse response = httpClient.execute(httpPost);
-
-			System.out.println("el response es" + response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -316,24 +297,10 @@ public class PandoraAndroidApi {
 				"application/vnd.pandora.api.comment+json");
 		HttpClient httpClient = WebServiceUtils.getHttpClient();
 		c.setUser(getUser(owner));
-		System.out.println("POST a "+url);
-		System.out.println("Content: "+ c.getContent());
-		System.out.println("Date: "+c.getDate());
-		System.out.println("User:{");
-		System.out.println("     email: "+c.getUser().getEmail());
-		System.out.println("     name: "+c.getUser().getName());
-		System.out.println("     surname: "+c.getUser().getSurname());
-		System.out.println("     username: "+c.getUser().getUsername());
-		System.out.println("     userpass: "+c.getUser().getUserpass());
-		System.out.println("}");
 		try {
 			StringEntity se = new StringEntity(gson.toJson(c));
 			httpPost.setEntity(se);
-
-			System.out.println("Esperamos la respuesta...");
 			HttpResponse response = httpClient.execute(httpPost);
-
-			System.out.println("el response es" + response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -440,11 +407,9 @@ public class PandoraAndroidApi {
 		HttpPost httpPost = new HttpPost(url);
 		HttpClient httpClient = WebServiceUtils.getHttpClient();
 		try {
-			System.out.println("en save document con url " +url);
 			FileEntity fe = new FileEntity(f, "document");
 			httpPost.setEntity(fe);
 			HttpResponse response = httpClient.execute(httpPost);
-			System.out.println("ejecutado el save doc");
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

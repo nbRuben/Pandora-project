@@ -31,7 +31,6 @@ public class PostResource {
 	@Path("/{idpost}")
 	@Consumes(MediaType.PANDORA_API_COMMENT)
 	public void addComments(@PathParam("idpost")int idpost,Commentdb comment ){
-		System.out.println("Dentro del PostResource");
 		CommentImplementation commentImpl = CommentImplementation.getInstance();
 		int result = commentImpl.addComment(comment, idpost);
 		

@@ -8,12 +8,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import edu.upc.eetac.ea.group1.pandora.android.api.PandoraAndroidApi;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Subject;
 import edu.upc.eetac.ea.group1.pandora.android.api.SubjectAdapter;
@@ -22,7 +20,6 @@ public class MySubjectsActivity extends ListActivity {
 
 	private PandoraAndroidApi api;
 	private SubjectAdapter adapter;
-
 	private  List<String> match;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +28,6 @@ public class MySubjectsActivity extends ListActivity {
 		this.match = new ArrayList<String>();
 		api = new PandoraAndroidApi();
 		(new FetchSubjectsTask()).execute((String) getIntent().getExtras().get("username"));
-		
 	} 
 	
 	public void goHome(View v){
@@ -65,7 +61,6 @@ public class MySubjectsActivity extends ListActivity {
 		setListAdapter(adapter);
 		adapter.notifyDataSetChanged();
 	}
-	
 	
 	private class FetchSubjectsTask extends AsyncTask<String, Void, List<Subject>> {
 		private ProgressDialog pd;

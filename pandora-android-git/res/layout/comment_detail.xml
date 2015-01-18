@@ -11,15 +11,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="5dip"
-        android:paddingRight="5dip" >
+        android:paddingRight="5dip"
+        android:gravity="right"> 
 
         <TextView
             android:id="@+id/tvowner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textStyle="bold" />
+            android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
 
     <LinearLayout
@@ -34,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
+            android:textColor="#000022"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
 

@@ -37,10 +37,8 @@ public class TwitterLoginActivity extends Activity {
         
         try {
         	
-        	//String authUrl = httpOauthprovider.retrieveRequestToken(httpOauthConsumer, OAuth.OUT_OF_BAND);
         	String authUrl = httpOauthprovider.retrieveRequestToken(httpOauthConsumer, OAuthTokens.OAUTH_CALLBACK_URL);
 				 
-	        // WebViewClient must be set BEFORE calling loadUrl!   
 	        webview.setWebViewClient(new WebViewClient() {  
 		        
 		       
@@ -61,14 +59,10 @@ public class TwitterLoginActivity extends Activity {
 	        	        String verifier = uri.getQueryParameter(oauth.signpost.OAuth.OAUTH_VERIFIER);
 	        	 
 	        	        try {
-	        	            // this will populate token and token_secret in consumer
-	        	 
-	        	        	//obtenemos los tokens de acceso del usuario
 	        	            httpOauthprovider.retrieveAccessToken(httpOauthConsumer, verifier);
 	        	            String userAccesToken = httpOauthConsumer.getToken();
 	        	            String userAccesTokenSecret = httpOauthConsumer.getTokenSecret();
 	        	 
-	        	            // Save user_key and user_secret in user preferences and return
 	        	            SharedPreferences settings = getBaseContext().getSharedPreferences("your_app_prefs", 0);
 	        	            SharedPreferences.Editor editor = settings.edit();
 	        	            editor.putString("user_token", userAccesToken);
@@ -77,9 +71,7 @@ public class TwitterLoginActivity extends Activity {
 	        	            
 	        	            System.out.println("Comprobando tokens: "+userAccesToken+", "+userAccesTokenSecret);
 	        	            
-	        	            //arrancamos el siquiente Activity, el main de un usuario de twitter
 	        	            startActivity(new Intent(TwitterLoginActivity.this, MainTwitterActivity.class));
-	        	            //cerramos esta actividad
 	        	            finish();
 	        	            
 	        	 

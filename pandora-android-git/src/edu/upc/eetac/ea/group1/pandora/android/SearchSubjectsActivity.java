@@ -52,7 +52,6 @@ public class SearchSubjectsActivity extends ListActivity {
 	}
 	
 	public void refreshSearch(String param){
-		System.out.println("realizando el refresh");
 		(new FetchSubjectsTask()).execute(param);
 	}
 
@@ -61,7 +60,6 @@ public class SearchSubjectsActivity extends ListActivity {
 		private ProgressDialog pd;
 		@Override
 		protected List<Subject> doInBackground(String... params) {
-			System.out.println("dentro del background con la busqueda " +params[0]);
 			List<Subject> subjects = null;
 			List<Subject> mySubjects = null;
 			match = new ArrayList<String>();

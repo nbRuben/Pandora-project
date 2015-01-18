@@ -9,7 +9,6 @@ import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import edu.upc.eetac.ea.group1.pandora.api.models.Commentdb;
-import edu.upc.eetac.ea.group1.pandora.api.models.Documentdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Groupdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Notificationdb;
 import edu.upc.eetac.ea.group1.pandora.api.models.Postdb;
@@ -29,13 +28,11 @@ public class CreateTablesDB {
 
 		new SchemaExport(config).create(true, true);
 
-		// Hibernate session
 		SessionFactory factory = config.buildSessionFactory();
 		Session session = factory.getCurrentSession();
 		session.beginTransaction();
 		System.out.println("Tables created.");
 
-		// Ahora añadimos usuarios, subject, group, post, notification de inicio
 		Userdb u = new Userdb("user1", "user1", "user1@ea.upc.es", "Pepe",
 				"Garcia");
 		session.save(u);
@@ -111,7 +108,6 @@ public class CreateTablesDB {
 		s = new Subjectdb("Xarxes de Transport");
 		session.save(s);
 
-		// Confirmamos lo que añadimos.
 		session.getTransaction().commit();
 		System.out.println("Base de Datos inicializada.");
 

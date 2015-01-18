@@ -6,10 +6,8 @@ import java.util.List;
 
 import edu.upc.eetac.ea.group1.pandora.android.api.DocumentAdapter;
 import edu.upc.eetac.ea.group1.pandora.android.api.PandoraAndroidApi;
-import edu.upc.eetac.ea.group1.pandora.android.api.PostAdapter;
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -18,7 +16,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Document;
-import edu.upc.eetac.ea.group1.pandora.android.api.model.Post;
 
 public class DocumentsActivity extends ListActivity {
 	private PandoraAndroidApi api;
@@ -80,12 +77,11 @@ public class DocumentsActivity extends ListActivity {
 	
 	@SuppressLint("NewApi") 
 	private class FetchDocumentTask extends AsyncTask<String, Void, Void> {
-		private ProgressDialog pd; 
 		@Override
 		protected Void doInBackground(String... params) {
 			
 			try {
-				//api.uploadDocument(params[0], (String) getIntent().getExtras().get("username"), getIntent().getExtras().getString("idSubject"), "0");
+				api.uploadDocument(params[0], (String) getIntent().getExtras().get("username"), getIntent().getExtras().getString("idSubject"), "0");
 				api.saveDocument(f);
 				
 			} catch (Exception e) {
@@ -98,7 +94,6 @@ public class DocumentsActivity extends ListActivity {
 	}
 	
 	private class GetDocumentsTask extends AsyncTask<String, Void, List<Document>> {
-		private ProgressDialog pd; 
 		@Override
 		protected List<Document> doInBackground(String... params) {
 			// TODO Auto-generated method stub

@@ -9,7 +9,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,17 +26,17 @@ public class MainActivity extends ListActivity
 {
 	private AdapterToList adapter;
 	private List<Post> postClick;
-	PandoraAndroidApi api = new PandoraAndroidApi();
+	PandoraAndroidApi api;
 	private int newNotifications = 0;
 	private List<Notification> myNotifications;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		api = new PandoraAndroidApi();
 		myNotifications = new ArrayList<Notification>();
 		(new FetchStingsTask()).execute((String) getIntent().getExtras().get("username"));
 		(new FetchNotificationsTask()).execute((String) getIntent().getExtras().get("username"));
-		//(new FetchStingsTask()).execute("user1");
 	}
 	
 
@@ -53,27 +52,30 @@ public class MainActivity extends ListActivity
         case R.id.MnuOpc1:
         	Intent intent = new Intent(this, MainActivity.class);
     		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
-    		Log.i("SelectedGroupActivity","Nos vamos a Join con: "+(String) getIntent().getExtras().get("username"));
         	startActivity(intent);
     		return true;
         case R.id.MnuOpc2:/*
         	Intent intent2 = new Intent(this, ExitGroupActivity.class);
         	intent2.putExtra("username", username);
-        	Log.i("SelectedGroupActivity","Nos vamos a Exit con: "+username);
     		startActivity(intent2);
     		return true;*/
         case R.id.MnuOpc3:
         	Intent intent3 = new Intent(this, MySubjectsActivity.class);
         	intent3.putExtra("username", (String) getIntent().getExtras().get("username"));
-        	Log.i("SelectedGroupActivity","Nos vamos a Exit con: "+(String) getIntent().getExtras().get("username"));
     		startActivity(intent3);
     		return true;
     	default:
     		return super.onOptionsItemSelected(item);
     	}
     }
-
 	
+	public void goHome(View v){
+		Intent intent = new Intent(getApplicationContext(),
+				MainActivity.class);
+		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
+		startActivity(intent);
+	}
+
 	private void addPosts(List<Post> posts){
 		adapter = new AdapterToList(this,(ArrayList<Post>)posts);
 		setListAdapter(adapter);
@@ -105,14 +107,13 @@ public class MainActivity extends ListActivity
 		@SuppressLint("NewApi")
 		@Override
 		protected List<Post> doInBackground(String... params) {
-			
+		
 			List<Post> posts = null;
 			try {
 				posts = api.getListRecentActivity(params[0]);
 				postClick=posts;
 			} catch (Exception e) {
 				e.printStackTrace();
-				Log.i("MainActivity","Error al recibir el post de la MiniAPI.");
 			}
 				return posts;
 		}
@@ -137,33 +138,26 @@ public class MainActivity extends ListActivity
 	
 	@SuppressLint("NewApi")
 	private class FetchNotificationsTask extends AsyncTask<String, Void, List<Notification>> {
-		private ProgressDialog pd;
 		@SuppressLint("NewApi")
 		@Override
 		protected List<Notification> doInBackground(String... params) {
 			
 			List<Notification> notifications = new ArrayList<Notification>();
 			List<Subject> mySubjects = new ArrayList<Subject>();
-	
-			//Falta lo mismo para grupo
 			try {
 				mySubjects = api.getMySubjects(params[0]);
 				notifications = api.getNotifications((String) getIntent().getExtras().get("username"));
-
 			} catch (Exception e) {
 				e.printStackTrace();
-				Log.i("MainActivity","Error al recibir el post de la MiniAPI.");
 			}
 			
 			for(Notification n:notifications){
-				System.out.println("Notificacion con id " +n.getId() + " del tipo " +n.getType() + " de la asignatura " +n.getSubject().getName());
 				for(Subject s: mySubjects){
 					if(s.getId().equals(n.getSubject().getId())){
 						myNotifications.add(n);
 					}
 				}
 			}
-			System.out.println("llegamos y la longitud es " + myNotifications.size());
 			newNotifications = myNotifications.size();
 			return myNotifications;
 		}
@@ -172,19 +166,6 @@ public class MainActivity extends ListActivity
 		protected void onPostExecute(List<Notification> result) {
 
 			setNotifications();
-			/*if (result.size()!=0){
-				Toast toast1 = Toast.makeText(getApplicationContext(),
-						"No se encuentran actividades recientes.", Toast.LENGTH_SHORT);
-				toast1.show();
-				addPosts(result);
-			}
-			else{
-				
-				addPosts(result);
-			}
-			if (pd != null) {
-				pd.dismiss();
-			}*/
 		}
 	}
 }

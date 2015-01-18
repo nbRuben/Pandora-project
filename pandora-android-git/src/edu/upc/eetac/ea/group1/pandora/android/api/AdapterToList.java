@@ -1,12 +1,10 @@
 package edu.upc.eetac.ea.group1.pandora.android.api;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import edu.upc.eetac.ea.group1.pandora.android.R;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Post;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,18 +57,11 @@ public class AdapterToList extends BaseAdapter {
 				.findViewById(R.id.tvcomment);
 		viewHolder.tvtypegroup = (TextView) convertView
 				.findViewById(R.id.tvtypegroup);
-		
-		Log.i("MiniAPI","Content: "+data.get(position).getContent());
-		Log.i("MiniAPI","Owner: "+data.get(position).getUser().getUsername());
-		Log.i("MiniAPI","# Comments: "+data.get(position).getComment().size());
-		Log.i("MiniAPI","Date: "+data.get(position).getDate());
 		String typegroup="Anonymous";
 		if(data.get(position).getGrupo()!=null){
-			Log.i("MiniAPI","Grupo Name: "+data.get(position).getGrupo().getName());
 			typegroup = data.get(position).getGrupo().getName();
 		}
 		if(data.get(position).getSubject()!=null){
-			Log.i("MiniAPI","Subject Name: "+data.get(position).getSubject().getName());
 			typegroup = data.get(position).getSubject().getName();
 		}
 		if(data.get(position).getComment()==null){
@@ -85,19 +76,12 @@ public class AdapterToList extends BaseAdapter {
 		String comment = Integer.toString(data.get(position).getComment().size());
 		
 		viewHolder.tvowner.setText(owner);
-		
-		
-		
 		viewHolder.tvcontent.setText(content);
 		viewHolder.tvdate.setText(date);
 		viewHolder.tvtypegroup.setText(typegroup);
 		viewHolder.tvcomment.setText("("+comment+") Comentarios");
 		
 		}
-//		else {
-//			viewHolder = (ViewHolder) convertView.getTag();
-//		}
-
 		return convertView;
 	}
 	

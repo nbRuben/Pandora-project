@@ -1,6 +1,5 @@
 package edu.upc.eetac.ea.group1.pandora.android.api.model;
 
-import java.io.File;
 
 public class Document {
 

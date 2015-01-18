@@ -2,15 +2,11 @@ package edu.upc.eetac.ea.group1.pandora.android.api;
 
 import java.util.ArrayList;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 import edu.upc.eetac.ea.group1.pandora.android.R;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Document;
@@ -19,7 +15,6 @@ public class DocumentAdapter extends BaseAdapter{
 
 	private ArrayList<Document> data;
 	private LayoutInflater inflater;
-	private PandoraAndroidApi api = new PandoraAndroidApi();
 	public Context context;
 	
 	public DocumentAdapter(Context context, ArrayList<Document> data) {

@@ -51,11 +51,13 @@ public class PostAdapter extends BaseAdapter{
 				.findViewById(R.id.tvauthor);
 		viewHolder.tvpostID = (TextView) convertView
 				.findViewById(R.id.tvpostID);
+		viewHolder.tvdate = (TextView) convertView
+				.findViewById(R.id.tvdate);
 
-		System.out.println(data.get(position));
 		viewHolder.tvauthor.setText(data.get(position).getUser().getUsername());
 		viewHolder.tvpost.setText(data.get(position).getContent());
 		viewHolder.tvpostID.setText(data.get(position).getId());
+		viewHolder.tvdate.setText(data.get(position).getDate().toString());
 		}
 		return convertView;
 	}
@@ -64,6 +66,7 @@ public class PostAdapter extends BaseAdapter{
 		TextView tvpost;
 		TextView tvauthor;
 		TextView tvpostID;
+		TextView tvdate;
 	}
 
 }

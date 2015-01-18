@@ -2,13 +2,13 @@ package edu.upc.eetac.ea.group1.pandora.android.api;
 
 import java.util.ArrayList;
 
+import edu.upc.eetac.ea.group1.pandora.android.LoginActivity;
 import edu.upc.eetac.ea.group1.pandora.android.MySubjectsActivity;
 import edu.upc.eetac.ea.group1.pandora.android.R;
 import edu.upc.eetac.ea.group1.pandora.android.SearchSubjectsActivity;
 import edu.upc.eetac.ea.group1.pandora.android.SubjectActivity;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Subject;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -104,7 +103,10 @@ public class SubjectAdapter extends BaseAdapter {
 					((Activity) context).finish();
 					((Activity) context).startActivity(((Activity) context).getIntent());
 					if (context instanceof SearchSubjectsActivity) {
-						((SearchSubjectsActivity) context).refreshSearch(search);
+						Intent intent = new Intent(arg0.getContext(), MySubjectsActivity.class);
+						intent.putExtra("username", username);
+						context.startActivity(intent);
+						//((SearchSubjectsActivity) context).refreshSearch(search);
 					}
 				}
 
@@ -144,8 +146,6 @@ public class SubjectAdapter extends BaseAdapter {
 	}
 
 	private class ManageSubjectsTask extends AsyncTask<String, Void, Void> {
-		private ProgressDialog pd;
-
 		@Override
 		protected Void doInBackground(String... params) {
 			if (params[0].equals("0")) {

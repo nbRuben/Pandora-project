@@ -8,7 +8,7 @@
 
     <!-- Header aligned to top -->
 
-    <include layout="@layout/general_header" />
+    <include layout="@layout/home_header" />
 
     <RelativeLayout
         android:id="@+id/content"
