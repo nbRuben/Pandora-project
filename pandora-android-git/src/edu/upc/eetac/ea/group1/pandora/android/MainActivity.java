@@ -18,116 +18,153 @@ import android.widget.ListView;
 import android.widget.Toast;
 import edu.upc.eetac.ea.group1.pandora.android.api.AdapterToList;
 import edu.upc.eetac.ea.group1.pandora.android.api.PandoraAndroidApi;
+import edu.upc.eetac.ea.group1.pandora.android.api.model.Group;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Notification;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Post;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Subject;
 
-public class MainActivity extends ListActivity
-{
+public class MainActivity extends ListActivity {
 	private AdapterToList adapter;
 	private List<Post> postClick;
 	PandoraAndroidApi api;
 	private int newNotifications = 0;
 	private List<Notification> myNotifications;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		api = new PandoraAndroidApi();
 		myNotifications = new ArrayList<Notification>();
-		(new FetchStingsTask()).execute((String) getIntent().getExtras().get("username"));
-		(new FetchNotificationsTask()).execute((String) getIntent().getExtras().get("username"));
+		myNotifications.clear();
+		(new FetchStingsTask()).execute((String) getIntent().getExtras().get(
+				"username"));
+		(new FetchNotificationsTask()).execute((String) getIntent().getExtras()
+				.get("username"));
 	}
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-				inflater.inflate(R.menu.navigation_menu, menu);
+		inflater.inflate(R.menu.navigation_menu, menu);
 		return true;
 	}
-	
+
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-        case R.id.MnuOpc1:
-        	Intent intent = new Intent(this, MainActivity.class);
-    		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
-        	startActivity(intent);
-    		return true;
-        case R.id.MnuOpc2:/*
-        	Intent intent2 = new Intent(this, ExitGroupActivity.class);
-        	intent2.putExtra("username", username);
-    		startActivity(intent2);
-    		return true;*/
-        case R.id.MnuOpc3:
-        	Intent intent3 = new Intent(this, MySubjectsActivity.class);
-        	intent3.putExtra("username", (String) getIntent().getExtras().get("username"));
-    		startActivity(intent3);
-    		return true;
-    	default:
-    		return super.onOptionsItemSelected(item);
-    	}
-    }
-	
-	public void goHome(View v){
-		Intent intent = new Intent(getApplicationContext(),
-				MainActivity.class);
-		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
+		case R.id.MnuOpc1:
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.putExtra("username",
+					(String) getIntent().getExtras().get("username"));
+			startActivity(intent);
+			return true;
+		case R.id.MnuOpc2:
+			Intent intent2 = new Intent(this, GroupActivity.class);
+			intent2.putExtra("username",
+					(String) getIntent().getExtras().get("username"));
+			startActivity(intent2);
+			return true;
+		case R.id.MnuOpc3:
+			Intent intent3 = new Intent(this, MySubjectsActivity.class);
+			intent3.putExtra("username",
+					(String) getIntent().getExtras().get("username"));
+			startActivity(intent3);
+			return true;
+		case R.id.MnuOpc4:
+			Intent intent4 = new Intent(this, ScheduleActivity.class);
+			intent4.putExtra("username",
+					(String) getIntent().getExtras().get("username"));
+			intent4.putExtra("nom",
+					(String) getIntent().getExtras().get("username"));
+			startActivity(intent4);
+			return true;
+		case R.id.MnuOpc5:
+			Intent intent5 = new Intent(this, UpdateUserActivity.class);
+			intent5.putExtra("username",
+					(String) getIntent().getExtras().get("username"));
+			startActivity(intent5);
+			return true;
+		case R.id.MnuOpc6:
+			Intent intent6 = new Intent(this, LoginActivity.class);
+			startActivity(intent6);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	public void goHome(View v) {
+		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+		intent.putExtra("username",
+				(String) getIntent().getExtras().get("username"));
 		startActivity(intent);
 	}
 
-	private void addPosts(List<Post> posts){
-		adapter = new AdapterToList(this,(ArrayList<Post>)posts);
+	public void userProfile(View v) {
+		Intent intent = new Intent(getApplicationContext(),
+				ViewProfileActivity.class);
+		intent.putExtra("nom", (String) getIntent().getExtras().get("username"));
+		intent.putExtra("username",
+				(String) getIntent().getExtras().get("username"));
+		startActivity(intent);
+	}
+
+	private void addPosts(List<Post> posts) {
+		adapter = new AdapterToList(this, (ArrayList<Post>) posts);
 		setListAdapter(adapter);
 		adapter.notifyDataSetChanged();
 	}
-	protected void onListItemClick(ListView l, View v, int position, long id){
-		Intent intent = new Intent(getApplicationContext(), ViewCommentsActivity.class );
-			intent.putExtra("idpost", postClick.get(position).getId());
-			intent.putExtra("username", (String) getIntent().getExtras().get("username"));
-			startActivity(intent);
+
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		Intent intent = new Intent(getApplicationContext(),
+				ViewCommentsActivity.class);
+		intent.putExtra("idpost", postClick.get(position).getId());
+		intent.putExtra("username",
+				(String) getIntent().getExtras().get("username"));
+		startActivity(intent);
 	}
-	
-	private void setNotifications(){
+
+	private void setNotifications() {
 		Button bNotifications = (Button) findViewById(R.id.bNotifications);
 		bNotifications.setText(Integer.toString(newNotifications));
 	}
-	
-	public void goToNotifications(View v){
+
+	public void goToNotifications(View v) {
 		Intent intent = new Intent(this, NotificationActivity.class);
-		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
-		intent.putExtra("myNotifications", (ArrayList<Notification>) myNotifications);
-    	startActivity(intent);
+		intent.putExtra("username",
+				(String) getIntent().getExtras().get("username"));
+		intent.putExtra("myNotifications",
+				(ArrayList<Notification>) myNotifications);
+		startActivity(intent);
 	}
-	
-	
+
 	@SuppressLint("NewApi")
 	private class FetchStingsTask extends AsyncTask<String, Void, List<Post>> {
 		private ProgressDialog pd;
+
 		@SuppressLint("NewApi")
 		@Override
 		protected List<Post> doInBackground(String... params) {
-		
 			List<Post> posts = null;
 			try {
 				posts = api.getListRecentActivity(params[0]);
-				postClick=posts;
+				postClick = posts;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-				return posts;
+			return posts;
 		}
-		
+
 		@Override
 		protected void onPostExecute(List<Post> result) {
-			if (result.size()==0){
+			if (result.size() == 0) {
 				Toast toast1 = Toast.makeText(getApplicationContext(),
-						"No se encuentran actividades recientes.", Toast.LENGTH_SHORT);
+						"No se encuentran actividades recientes.",
+						Toast.LENGTH_SHORT);
 				toast1.show();
 				addPosts(result);
-			}
-			else{
-				
+			} else {
+
 				addPosts(result);
 			}
 			if (pd != null) {
@@ -135,33 +172,57 @@ public class MainActivity extends ListActivity
 			}
 		}
 	}
-	
+
 	@SuppressLint("NewApi")
-	private class FetchNotificationsTask extends AsyncTask<String, Void, List<Notification>> {
+	private class FetchNotificationsTask extends
+			AsyncTask<String, Void, List<Notification>> {
 		@SuppressLint("NewApi")
 		@Override
 		protected List<Notification> doInBackground(String... params) {
-			
+
 			List<Notification> notifications = new ArrayList<Notification>();
 			List<Subject> mySubjects = new ArrayList<Subject>();
+			List<Group> myGroups = new ArrayList<Group>();
 			try {
 				mySubjects = api.getMySubjects(params[0]);
-				notifications = api.getNotifications((String) getIntent().getExtras().get("username"));
+				notifications = api.getNotifications((String) getIntent()
+						.getExtras().get("username"));
+				myGroups = api.getGroupsByUser((String) getIntent().getExtras()
+						.get("username"));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			for(Notification n:notifications){
-				for(Subject s: mySubjects){
-					if(s.getId().equals(n.getSubject().getId())){
-						myNotifications.add(n);
+
+			for (Notification n : notifications) {
+				if(n.getSubject()!=null)
+				{
+					for (Subject s : mySubjects) {
+						if (s.getId().equals(n.getSubject().getId())) {
+							myNotifications.add(n);
+						}
 					}
 				}
 			}
+			
+			for (Notification n : notifications) {
+				if(n.getGrupo()!=null){
+					System.out.println("notificacion " + n.getId()); 
+					for (Group g : myGroups) {
+						if (g.getId().equals(n.getGrupo().getId())) {
+							myNotifications.add(n);
+						}
+					}
+					if(n.getType()==3){
+						myNotifications.add(n);
+					}
+				}
+
+			}
+			System.out.println(myNotifications.size());
 			newNotifications = myNotifications.size();
 			return myNotifications;
 		}
-		
+
 		@Override
 		protected void onPostExecute(List<Notification> result) {
 

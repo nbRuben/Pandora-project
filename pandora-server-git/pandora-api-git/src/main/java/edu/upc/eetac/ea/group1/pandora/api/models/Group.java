@@ -6,10 +6,10 @@ public class Group {
 	
 	int id; 
 	String name; 
+	String owner;
 	List<User> user; 
 	List<Post> post;
 	List<Notification> notification;
-	List<Document> document;
 	
 	public int getId() {
 		return id;
@@ -35,17 +35,18 @@ public class Group {
 	public void setPost(List<Post> post) {
 		this.post = post;
 	}
+	
+	public String getOwner() {
+		return owner;
+	}
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
 	public List<Notification> getNotification() {
 		return notification;
 	}
 	public void setNotification(List<Notification> notification) {
 		this.notification = notification;
-	}
-	public List<Document> getDocument() {
-		return document;
-	}
-	public void setDocument(List<Document> document) {
-		this.document = document;
 	}
 	
 }

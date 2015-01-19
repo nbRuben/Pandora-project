@@ -142,30 +142,6 @@ public class UserImplementation implements Serializable {
 		return u;
 	}
 
-	public int updateUser(Userdb user, String username) {
-		validateUser(user, 1);
-
-		SessionFactory factory = config.buildSessionFactory();
-		Session session = factory.getCurrentSession();
-		session.beginTransaction();
-
-		try {
-			session.save(user);
-			session.getTransaction().commit();
-
-		} catch (Exception e) {
-
-			session.close();
-			return 0;
-
-		} finally {
-
-			session.close();
-
-		}
-
-		return 1;
-	}
 
 	public List<Subject> getUserSubjects(String username) {
 		// TODO Auto-generated method stub
@@ -341,6 +317,25 @@ public class UserImplementation implements Serializable {
 		notification.setRead(true);
 		session.update(notification);
 		session.getTransaction().commit();
+	}
+	
+	public User updateUser(Userdb user, String username) {
+		// hibernate session
+		SessionFactory factory = config.buildSessionFactory();
+		Session session = factory.openSession();
+		session.beginTransaction();
+		 User u = new User();
+		  
+		  u.setName(user.getName());
+	      u.setUsername(username);
+	      u.setUserpass(user.getUserpass());
+	      u.setSurname(user.getSurname());
+	      u.setEmail(user.getEmail());
+		   
+		session.update(user); // guardo user
+		session.getTransaction().commit();
+
+		return u;
 	}
 
 }

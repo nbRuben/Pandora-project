@@ -106,7 +106,6 @@ public class SubjectAdapter extends BaseAdapter {
 						Intent intent = new Intent(arg0.getContext(), MySubjectsActivity.class);
 						intent.putExtra("username", username);
 						context.startActivity(intent);
-						//((SearchSubjectsActivity) context).refreshSearch(search);
 					}
 				}
 

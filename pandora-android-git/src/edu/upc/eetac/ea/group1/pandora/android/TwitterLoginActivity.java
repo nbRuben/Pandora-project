@@ -70,8 +70,9 @@ public class TwitterLoginActivity extends Activity {
 	        	            editor.commit();
 	        	            
 	        	            System.out.println("Comprobando tokens: "+userAccesToken+", "+userAccesTokenSecret);
-	        	            
-	        	            startActivity(new Intent(TwitterLoginActivity.this, MainTwitterActivity.class));
+	        	            Intent i = new Intent(TwitterLoginActivity.this, MainActivity.class);
+	        	            i.putExtra("username", "twitter");
+	        	            startActivity(i);
 	        	            finish();
 	        	            
 	        	 

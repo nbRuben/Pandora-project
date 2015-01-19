@@ -52,16 +52,6 @@ public class UserResource {
 		return u;
 	}
 	
-	@PUT
-    @Path("/{user}")
-	@Consumes(MediaType.PANDORA_API_USER)
-	public void updateUser(@PathParam("user") String username, Userdb user){
-	    	
-		   UserImplementation userImpl =  UserImplementation.getInstance();
-	    userImpl.updateUser(user, username);
-	       
-	}
-	
 	@GET
 	@Path ("/{user}/notifications")
 	public List<Notification> getNotifications(@PathParam("user") String username)
@@ -125,6 +115,18 @@ public class UserResource {
 	public void deleteSubjecFromUser(@PathParam("user") String username, @PathParam("idSubject") int idSubject) {
 		UserImplementation impl =  UserImplementation.getInstance();
     	impl.deleteSubjectFromUser(username, idSubject);       
+	}
+	
+	@PUT
+    @Path("/{user}")
+	@Consumes(MediaType.PANDORA_API_USER)
+	@Produces (MediaType.PANDORA_API_USER)
+	public User updateUser(@PathParam("user") String username, Userdb user){
+	    	
+		   UserImplementation userImpl =  UserImplementation.getInstance();
+	       User u = userImpl.updateUser(user, username);
+	       return u;
+	       
 	}
     
 }

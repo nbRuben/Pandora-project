@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="Access-Control-Allow-Origin" content="http://147.83.7.200:8080/pandora-api/subjects/"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Get All Subjects</title>
+</head>
+<body ng-app="myModule" ng-controller="mainController">
+<h1>Get All Subjects</h1>
+<div ng-repeat="subject in subjects">
+    <label>
+        Id: {{subject.id}} - Name: {{subject.name}}
+    </label>
+</div>
+</body>
+<script src="jquery.min.js"></script>
+<script src="angular.min.js"></script>
+<script src="main.js"></script>
+

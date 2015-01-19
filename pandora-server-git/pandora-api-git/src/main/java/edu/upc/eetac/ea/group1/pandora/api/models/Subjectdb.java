@@ -66,7 +66,7 @@ public class Subjectdb {
 	
 	
 	
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy ="subject")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy ="subject")
 	public List<Userdb> getUser() {
 		return user;
 	}

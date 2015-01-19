@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:text="comentarios"
+    android:textColor="#29FF2C" >
+
+    <LinearLayout
+        android:id = "@+id/lluser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:onClick="sendInvitation"
+        android:orientation="horizontal"
+        android:paddingLeft="5dip"
+        android:paddingRight="5dip" >
+
+        <TextView
+            android:id="@+id/tvuser"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#000022" />
+        
+    </LinearLayout>
+
+</RelativeLayout>

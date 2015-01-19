@@ -45,7 +45,7 @@ public class CreateTablesDB {
 		u.addSubject(s);
 		session.save(s);
 
-		Groupdb g = new Groupdb("EA Rules");
+		Groupdb g = new Groupdb("EA Rules", "user1");
 		u.addGroup(g);
 		session.save(g);
 
@@ -75,21 +75,16 @@ public class CreateTablesDB {
 		n = new Notificationdb(1, s, false, u.getUsername());
 		g.addNotificacion(n);
 		session.save(n);
-		
-		
-		n = new Notificationdb(3, s, false, u.getUsername()); //// CAMBIAR A GRUPO
-		g.addNotificacion(n);
-		session.save(n);
 
-		g = new Groupdb("PX - como mola el Pajek");
-		u.addGroup(g);
+		g = new Groupdb("PX - como mola el Pajek", "user2");
+		u2.addGroup(g);
 		session.save(g);
 
 		s = new Subjectdb("Seguretat en xarxes");
 		u2.addSubject(s);
 		session.save(s);
 		
-		n = new Notificationdb(1, s, false, u2.getUsername());
+		n = new Notificationdb(3, g, false, u.getUsername());
 		g.addNotificacion(n);
 		session.save(n);
 
@@ -108,6 +103,11 @@ public class CreateTablesDB {
 		s = new Subjectdb("Xarxes de Transport");
 		session.save(s);
 
+
+		Userdb t = new Userdb("twitter", "twitter", "twitter@twitter.es", "twitter",
+				"twitter");
+		session.save(t);
+		
 		session.getTransaction().commit();
 		System.out.println("Base de Datos inicializada.");
 

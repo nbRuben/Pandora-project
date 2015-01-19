@@ -20,19 +20,19 @@ public class Groupdb {
 
 	int id; 
 	String name; 
+	String owner;
 	List<Userdb> user; 
 	List<Postdb> post;
 	List<Notificationdb> notification;
-	List<Documentdb> document;
+	
 	
 
-	public Groupdb(String name) {
+	public Groupdb(String name, String owner) {
 		this.name = name;
-		
+		this.owner = owner;
 		post = new ArrayList<>();
 		user = new ArrayList<>();
 		notification = new ArrayList<>(); 
-		document = new ArrayList<>();
 	}
 	
 	public Groupdb(){
@@ -40,7 +40,6 @@ public class Groupdb {
 		post = new ArrayList<>();
 		user = new ArrayList<>();
 		notification = new ArrayList<>(); 
-		document = new ArrayList<>();
 	}
 	
 	public Group convertFromDB(){
@@ -48,6 +47,7 @@ public class Groupdb {
 		
 		groupdb.setId(this.id);
 		groupdb.setName(this.name);
+		groupdb.setOwner(this.owner);
 		
 		return groupdb;
 	}
@@ -66,6 +66,13 @@ public class Groupdb {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	@Column (name = "OWNER", nullable = false)
+	public String getOwner() {
+		return owner;
+	}
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 	
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy ="grupo")
@@ -92,14 +99,6 @@ public class Groupdb {
 	public void setNotification(List<Notificationdb> notification) {
 		this.notification = notification;
 	}
-
-    @OneToMany (fetch = FetchType.LAZY, mappedBy= "grupo")
-	public List<Documentdb> getDocument() {
-		return document;
-	}
-	public void setDocument(List<Documentdb> document) {
-		this.document = document;
-	}
 	
     public void addPost (Postdb post)
     {
@@ -110,9 +109,4 @@ public class Groupdb {
     {
     	this.notification.add(notification);
     }
-    
-	public void addDocument(Documentdb document){
-		this.document.add(document);
-	}
-    
 }

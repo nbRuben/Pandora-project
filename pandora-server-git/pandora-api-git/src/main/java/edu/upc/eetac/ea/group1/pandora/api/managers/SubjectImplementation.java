@@ -68,7 +68,7 @@ public class SubjectImplementation implements Serializable {
 		session.beginTransaction();
 		Subjectdb subjectquery = (Subjectdb) query.uniqueResult();
 
-		session.close();
+		//session.close();
 		return subjectquery;
 	}
 

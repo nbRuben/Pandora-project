@@ -87,6 +87,7 @@ DROP TABLE IF EXISTS `grupo`;
 CREATE TABLE `grupo` (
   `GROUP_ID` int(11) NOT NULL AUTO_INCREMENT,
   `NAME` varchar(255) NOT NULL,
+  `OWNER` varchar(255) NOT NULL,
   PRIMARY KEY (`GROUP_ID`),
   UNIQUE KEY `GROUP_ID` (`GROUP_ID`),
   UNIQUE KEY `NAME` (`NAME`)
@@ -99,7 +100,7 @@ CREATE TABLE `grupo` (
 
 LOCK TABLES `grupo` WRITE;
 /*!40000 ALTER TABLE `grupo` DISABLE KEYS */;
-INSERT INTO `grupo` VALUES (1,'EA Rules'),(2,'PX - como mola el Pajek');
+INSERT INTO `grupo` VALUES (1,'EA Rules','user1'),(2,'PX - como mola el Pajek','user2');
 /*!40000 ALTER TABLE `grupo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,7 +124,7 @@ CREATE TABLE `notification` (
   KEY `FK237A88EB446C0192` (`subject_SUBJECT_ID`),
   CONSTRAINT `FK237A88EB446C0192` FOREIGN KEY (`subject_SUBJECT_ID`) REFERENCES `subject` (`SUBJECT_ID`),
   CONSTRAINT `FK237A88EBFF4FDFD5` FOREIGN KEY (`grupo_GROUP_ID`) REFERENCES `grupo` (`GROUP_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -132,7 +133,7 @@ CREATE TABLE `notification` (
 
 LOCK TABLES `notification` WRITE;
 /*!40000 ALTER TABLE `notification` DISABLE KEYS */;
-INSERT INTO `notification` VALUES (1,'N',1,'user1',NULL,1),(2,'N',1,'user1',NULL,2),(3,'N',3,'user1',NULL,2),(4,'N',1,'user2',NULL,3);
+INSERT INTO `notification` VALUES (1,'N',1,'user1',NULL,1),(2,'N',1,'user1',NULL,2),(3,'N',3,'user1',2,NULL);
 /*!40000 ALTER TABLE `notification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,7 +168,7 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
-INSERT INTO `post` VALUES (1,'A alguien le falta un componente para el grupo?','2015-01-18 02:34:51',NULL,1,'user1'),(2,'Hoy hay clase?','2015-01-18 02:34:51',NULL,1,'user1'),(3,'Como nos organizamos?','2015-01-18 02:34:51',1,NULL,'user2');
+INSERT INTO `post` VALUES (1,'A alguien le falta un componente para el grupo?','2015-01-19 12:54:30',NULL,1,'user1'),(2,'Hoy hay clase?','2015-01-19 12:54:30',NULL,1,'user1'),(3,'Como nos organizamos?','2015-01-19 12:54:30',1,NULL,'user2');
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,7 +221,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('user1','user1@ea.upc.es','Pepe','Garcia','user1'),('user2','user1@ea.upc.es','Jose','Perez','user2');
+INSERT INTO `user` VALUES ('twitter','twitter@twitter.es','twitter','twitter','twitter'),('user1','user1@ea.upc.es','Pepe','Garcia','user1'),('user2','user1@ea.upc.es','Jose','Perez','user2');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -247,7 +248,7 @@ CREATE TABLE `user_grupo` (
 
 LOCK TABLES `user_grupo` WRITE;
 /*!40000 ALTER TABLE `user_grupo` DISABLE KEYS */;
-INSERT INTO `user_grupo` VALUES ('user1',1),('user1',2);
+INSERT INTO `user_grupo` VALUES ('user1',1),('user2',2);
 /*!40000 ALTER TABLE `user_grupo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -287,4 +288,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-18  2:36:06
+-- Dump completed on 2015-01-19 12:55:10

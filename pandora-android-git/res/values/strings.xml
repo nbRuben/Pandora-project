@@ -25,17 +25,23 @@
     <string name="button_send">Enviar</string>
     <string name="button_register">Registrarse</string>
     <string name="content">Escribe tu post aqui</string>
-    <string name="hint_search">Buscar asignatura</string>
+    <string name="hint_search">Buscar asignatura</string> 
     <string name="button_publish">Nuevo Post</string>
     <string name="title_activity_menu">MenuActivity</string>
     <string name="recent_activity">Actividad reciente</string>
     <string name="commentbypost">Comentarios</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="subjects">Asignaturas</string>
+    <string name="users2">Asignaturas</string>
     <string name="notifications">Mis notificaciones</string>
     <string name="button_addToSubject">V</string>
     <string name="button_search">Buscar</string>
     <string name="etcontent">Escribir mensaje</string>
     <string name="documents">Documentos</string>
+    <string name="create_group_name">Nombre para el Grupo</string>
+     <string name="schedule_activity">Mi Horario</string>
+    <string name="users">Usuarios</string>
+    <string name="groups">Grupos</string>
+    <string name="hint_search_2">Buscar usuarios</string>
 
 </resources>

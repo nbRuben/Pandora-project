@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#004c99"
     android:fillViewport="true" >
-
-    <RelativeLayout 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
 
         <!-- Header starts -->
 
@@ -96,41 +92,41 @@
                 android:layout_height="match_parent" >
             </FrameLayout>
         </LinearLayout>
+            <Button
+                android:id="@+id/bLogin"
+                android:layout_width="100dp"
+                android:layout_height="25dp"
+                android:layout_above="@+id/linearLayout1"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/border_button"
+                android:gravity="center_vertical|center_horizontal"
+                android:onClick="signIn"
+                android:text="@string/button_signin"
+                android:layout_marginRight="5dip"
+                android:textColor="#fff" />
 
-        <Button
-            android:id="@+id/bLogin"
-            android:layout_width="100dp"
-            android:layout_height="25dp"
-            android:layout_above="@+id/linearLayout1"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/border_button"
-            android:gravity="center_vertical|center_horizontal"
-            android:onClick="signIn"
-            android:text="@string/button_signin"
-            android:textColor="#fff" />
+            <Button
+                android:id="@+id/bLoginTwitter"
+                android:layout_width="100dp"
+                android:layout_height="25dp"
+                android:layout_alignBaseline="@+id/bLoginTwitter"
+                android:layout_alignBottom="@+id/bLoginTwitter"
+                android:layout_toRightOf="@+id/bLogin"
+                android:background="@drawable/border_button"
+                android:onClick="signInTwitter"
+                android:text="@string/button_twitter"
+                android:layout_marginRight="5dip"
+                android:textColor="#fff" />
 
-        <Button
-            android:id="@+id/bLoginTwitter"
-            android:layout_width="100dp"
-            android:layout_height="25dp"
-            android:layout_alignBaseline="@+id/bLoginTwitter"
-            android:layout_alignBottom="@+id/bLoginTwitter"
-            android:layout_toRightOf="@+id/bLogin"
-            android:background="@drawable/border_button"
-            android:onClick="signInTwitter"
-            android:text="@string/button_twitter"
-            android:textColor="#fff" />
+            <Button
+                android:id="@+id/bLoginTwitter"
+                android:layout_width="100dp"
+                android:layout_height="25dp"
+                android:layout_alignBottom="@+id/linearLayout1"
+                android:layout_toLeftOf="@+id/bLogin"
+                android:background="@drawable/border_button"
+                android:onClick="register"
+                android:text="@string/button_register"
+                android:textColor="#fff" />
 
-        <Button
-            android:id="@+id/bLoginTwitter"
-            android:layout_width="100dp"
-            android:layout_height="25dp"
-            android:layout_alignBottom="@+id/linearLayout1"
-            android:layout_toLeftOf="@+id/bLogin"
-            android:background="@drawable/border_button"
-            android:onClick="register"
-            android:text="@string/button_register"
-            android:textColor="#fff" />
-    </RelativeLayout>
-
-</ScrollView>
+</RelativeLayout>

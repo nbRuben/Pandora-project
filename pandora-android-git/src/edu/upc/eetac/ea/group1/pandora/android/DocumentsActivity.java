@@ -37,14 +37,21 @@ public class DocumentsActivity extends ListActivity {
 	public void goToUploadDoc(View v){
 		Intent i = new Intent(
 				Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-				 
 				startActivityForResult(i, RESULT_LOAD_IMAGE);
+		
 	}
 	
 	private void printDocuments(List<Document> doc){
 		adapter = new DocumentAdapter(this,(ArrayList<Document>)doc);
 		setListAdapter(adapter);
 		adapter.notifyDataSetChanged();
+	}
+	
+	public void goHome(View v){
+		Intent intent = new Intent(getApplicationContext(),
+				MainActivity.class);
+		intent.putExtra("username", (String) getIntent().getExtras().get("username"));
+		startActivity(intent);
 	}
 	
 	@Override
@@ -66,11 +73,6 @@ public class DocumentsActivity extends ListActivity {
             String imageName = f.getName();
             (new FetchDocumentTask()).execute(imageName);
             
-            //FALTA GUARDAR LA IMAGEN EN UNA CARPETA
-             
-            /*ImageView imageView = (ImageView) findViewById(R.id.imgView);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));*/
-         
         }
      
     }
@@ -83,7 +85,8 @@ public class DocumentsActivity extends ListActivity {
 			try {
 				api.uploadDocument(params[0], (String) getIntent().getExtras().get("username"), getIntent().getExtras().getString("idSubject"), "0");
 				api.saveDocument(f);
-				
+				finish();
+				startActivity(getIntent());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

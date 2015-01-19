@@ -34,6 +34,8 @@ public class PostImplementation implements Serializable {
 		private SessionFactory factory;
 		public List<Postdb> posts;
 		public List<Commentdb> comments;
+		SubjectImplementation subjectImpl = SubjectImplementation.getInstance();
+		GroupImplementation groupImpl = GroupImplementation.getInstance();
 		private static PostImplementation instance = null;
 		ConvertLists convertlist= ConvertLists.getInstance();
 
@@ -72,53 +74,58 @@ public class PostImplementation implements Serializable {
 	}
 
 	public List<Post> getActivityRecent(String username) {
-				Date now = new Date();
-				SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-				String dnow =ft.format(now);
-				Session session = factory.openSession();
-				SQLQuery query = session.createSQLQuery("SELECT * FROM post p INNER JOIN user u WHERE p.user_USERNAME=u.USERNAME ORDER BY p.date DESC"); 
-				query.addEntity(Postdb.class);
-				session.beginTransaction();
-				
-				List<Post> p = new ArrayList<Post>();
-				List<Postdb> postsdb = query.list();
-				
-				if(postsdb == null){
-					throw new NotFoundException ("No hay actividad reciente.");
-					
-				}
-				else{
-					session.getTransaction().commit();
-					
-					
-					for(Postdb postdb: postsdb){
-						Post post = postdb.convertFromDB();
-						
-						if(postdb.getGrupo()!= null){
-							for(Userdb userdb: postdb.getGrupo().getUser()){
-								if(username.equals(userdb.getUsername()))
-									post.setUser(postdb.getUser().convertFromDB());
-									post.setGrupo(postdb.getGrupo().convertFromDB());
-									post.setComment(convertlist.convertListComments(postdb.getComments()));
-									p.add(post);
-							}
-						}
-						else{
-							for(Userdb userdb: postdb.getSubject().getUser()){
-								if(username.equals(userdb.getUsername())){
-									post.setUser(postdb.getUser().convertFromDB());
-									post.setSubject(postdb.getSubject().convertFromDB());
-									post.setComment(convertlist.convertListComments(postdb.getComments()));
-									p.add(post); 
-								}
-							}
-						}
-						
-					}
-				}
-					
-				return p;
-	}
+                Date now = new Date();
+                SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+                String dnow =ft.format(now);
+                Session session = factory.openSession();
+                SQLQuery query = session.createSQLQuery("SELECT * FROM post p INNER JOIN user u WHERE p.user_USERNAME=u.USERNAME ORDER BY p.date DESC"); 
+                query.addEntity(Postdb.class);
+                session.beginTransaction();
+        
+                
+                List<Post> ps = new ArrayList<Post>();
+                List<Postdb> postsdb = query.list();
+                
+                if(postsdb == null){
+                    throw new NotFoundException ("No hay actividad reciente.");
+                    
+                }
+                else{
+                    session.getTransaction().commit();
+                    
+                    
+                    for(Postdb postdb: postsdb){
+                        Post post = postdb.convertFromDB();
+                        if(postdb.getGrupo()!= null){                   
+                            Groupdb group= groupImpl.getGroupdb(postdb.getGrupo().getId());
+                            for(Userdb userdb: group.getUser()){
+                                if(username.equals(userdb.getUsername())){
+                                    post.setUser(postdb.getUser().convertFromDB());
+                                    post.setGrupo(postdb.getGrupo().convertFromDB());
+                                    post.setComment(convertlist.convertListComments(postdb.getComments()));
+                                    ps.add(post);
+                                }
+                            }
+                        }
+                        else{
+                            Subjectdb subject = subjectImpl.getSubjectdb(postdb.getSubject().getId());
+                            for(Userdb userdb: subject.getUser()){
+                                if(username.equals(userdb.getUsername())){
+                                    post.setUser(postdb.getUser().convertFromDB());
+                                    post.setSubject(postdb.getSubject().convertFromDB());
+                                    post.setComment(convertlist.convertListComments(postdb.getComments()));
+                                    ps.add(post); 
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+                    
+                return ps;
+    }
+
+
 	
 	public int deletePostFromGroup(String postid){
 		int id = Integer.valueOf(postid);

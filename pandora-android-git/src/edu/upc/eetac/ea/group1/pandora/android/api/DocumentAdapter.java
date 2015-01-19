@@ -2,6 +2,7 @@ package edu.upc.eetac.ea.group1.pandora.android.api;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

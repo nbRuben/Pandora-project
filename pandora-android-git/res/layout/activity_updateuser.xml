@@ -10,31 +10,16 @@
        android:layout_width="fill_parent"
        android:layout_height="wrap_content"
        android:gravity="right" >
-
-       <ImageView
-           android:id="@+id/imageView1"
-           android:layout_width="100dp"
-           android:layout_height="100dp"
-           android:layout_alignParentLeft="true"
-           android:layout_below="@+id/linearLayout1"
-           android:layout_marginLeft="45dp"
-            android:layout_marginTop="60dp"
-           android:contentDescription="@string/desc"
-           android:gravity="center_vertical"
-           android:src="@drawable/user" />
-
-        <Button
-            android:id="@+id/beditimage"
-            android:layout_width="100dp"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/imageView1"
-            android:layout_marginRight="45dp"
-            android:layout_marginTop="75dp"
-            android:background="@drawable/border_button"
-            android:onClick="signInTwitter"
-            android:text="@string/button_edit_image"
-            android:textColor="#fff" />
+ <TextView
+            android:id="@+id/header"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="UPDATE PROFILE"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            android:textColor="#0066cc"/>
+      
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -44,20 +29,37 @@
             android:orientation="vertical"
             android:padding="30dip" >
 
-            <TextView
-                android:id="@+id/lUsername"
+              <TextView
+                android:id="@+id/lName"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/register_username"
+                android:text="@string/register_name"
                 android:textColor="#000" />
 
             <EditText
-                android:id="@+id/etUsername"
+                android:id="@+id/etName"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
                 android:layout_marginTop="5dip"
-                android:hint="@string/register_username"
+                android:hint="@string/register_name"
+                android:inputType="text"
+                android:singleLine="true"
+                android:background="#fff" />
+              <TextView
+                android:id="@+id/lSurname"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/register_surname"
+                android:textColor="#000" />
+
+            <EditText
+                android:id="@+id/etSurname"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dip"
+                android:layout_marginTop="5dip"
+                android:hint="@string/register_surname"
                 android:inputType="text"
                 android:singleLine="true"
                 android:background="#fff" />
@@ -117,23 +119,7 @@
                 android:singleLine="true"
                 android:background="#fff"
                  />
-             <TextView
-                android:id="@+id/lName"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/register_name"
-                android:textColor="#000" />
-
-            <EditText
-                android:id="@+id/etName"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dip"
-                android:layout_marginTop="5dip"
-                android:hint="@string/register_name"
-                android:inputType="text"
-                android:singleLine="true"
-                android:background="#fff" />
+          
         </LinearLayout>
 
                  <Button
@@ -144,6 +130,7 @@
                      android:layout_alignParentLeft="true"
                      android:layout_marginLeft="45dp"
                      android:background="@drawable/border_button"
+                     android:onClick="update"
                      android:text="@string/button_submit"
                      android:textColor="#fff" />
 
@@ -161,4 +148,3 @@
    </RelativeLayout>
 
 </ScrollView>
-       

@@ -1,20 +1,22 @@
 package edu.upc.eetac.ea.group1.pandora.android.api.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Group {
+@SuppressWarnings("serial")
+public class Group implements Serializable{
 	
-	int id; 
+	String id; 
 	String name; 
+	String owner;
 	List<User> user; 
 	List<Post> post;
 	List<Notification> notification;
-	List<Document> document;
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -22,6 +24,12 @@ public class Group {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getOwner() {
+		return owner;
+	}
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 	public List<User> getUser() {
 		return user;
@@ -41,13 +49,5 @@ public class Group {
 	public void setNotification(List<Notification> notification) {
 		this.notification = notification;
 	}
-	public List<Document> getDocument() {
-		return document;
-	}
-	public void setDocument(List<Document> document) {
-		this.document = document;
-	}
-	
-	
-	
+
 }

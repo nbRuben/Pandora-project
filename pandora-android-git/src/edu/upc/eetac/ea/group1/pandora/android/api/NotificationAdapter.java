@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import edu.upc.eetac.ea.group1.pandora.android.MainActivity;
+import edu.upc.eetac.ea.group1.pandora.android.MySubjectsActivity;
 import edu.upc.eetac.ea.group1.pandora.android.R;
 import edu.upc.eetac.ea.group1.pandora.android.api.model.Notification;
 
@@ -83,16 +86,18 @@ public class NotificationAdapter extends BaseAdapter{
 				viewHolder = new ViewHolder();
 				viewHolder.tvNotificationContent = (TextView) convertView
 						.findViewById(R.id.tvNotificationContent);
-				viewHolder.tvNotificationContent.setText("Te han invitado al grupo " + data.get(position).getSubject().getName()); //CAMBIAR A GRUPOS
+				viewHolder.tvNotificationContent.setText("Te han invitado al grupo " + data.get(position).getGrupo().getName()); 
 				acceptButton.setOnClickListener(new OnClickListener(){
 
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
+						(new AddToGroupTask()).execute(data.get(position).getUsername(), data.get(position).getGrupo().getId());
 						(new UpdateNotificationTask()).execute(data.get(position));
 
-						((Activity) context).finish();
-						((Activity) context).startActivity(((Activity) context).getIntent());
+						Intent intent = new Intent(v.getContext(), MainActivity.class);
+						intent.putExtra("username", username);
+						context.startActivity(intent);
 					}
 					
 				});
@@ -103,9 +108,9 @@ public class NotificationAdapter extends BaseAdapter{
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
 						(new UpdateNotificationTask()).execute(data.get(position));
-
-						((Activity) context).finish();
-						((Activity) context).startActivity(((Activity) context).getIntent());
+						Intent intent = new Intent(v.getContext(), MainActivity.class);
+						intent.putExtra("username", username);
+						context.startActivity(intent);
 					}
 					
 				});
@@ -117,6 +122,16 @@ public class NotificationAdapter extends BaseAdapter{
 	private static class ViewHolder {
 		TextView tvTarget;
 		TextView tvNotificationContent;
+	}
+	
+	private class AddToGroupTask extends AsyncTask<String, Void, Void> {
+		private ProgressDialog pd;
+		@Override
+		protected Void doInBackground(String... params) {
+				api.AddToGroup(params[0], params[1]);
+			return null;
+		}
+		
 	}
 	
 	private class UpdateNotificationTask extends AsyncTask<Notification, Void, Void> {
